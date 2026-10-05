@@ -714,7 +714,7 @@ function openCredits() {
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
       <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Scripture is from the Douay-Rheims Bible.</p>
-      <p><a href="https://github.com/shalone86/voxfidelium" target="_blank" rel="noopener">Source on GitHub</a></p>
+      <p><a href="https://github.com/shalone86/illuminatedrosary" target="_blank" rel="noopener">Source on GitHub</a></p>
     </div>
     ${Object.entries(bySource).map(([src, list]) => `<section><h2 class="rubric">${esc(src)} · ${list.length}</h2><ul class="credits-list">${list
       .map((a) => `<li><a href="${esc(a.link)}" target="_blank" rel="noopener">${esc(a.title)}</a> <span class="who">— ${esc([a.artist, a.date].filter(Boolean).join(", "))}</span></li>`).join("")}</ul></section>`).join("")}`);

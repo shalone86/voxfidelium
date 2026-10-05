@@ -1,7 +1,7 @@
 """Add Wikimedia Commons candidates for thin pools (slow & polite: Commons rate-limits)."""
 import json, re, sys, time, urllib.request, urllib.parse, os, html
 HERE = os.path.dirname(__file__)
-UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (https://github.com/shalone86/voxfidelium)"}
+UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (https://github.com/shalone86/illuminatedrosary)"}
 C = lambda cents, what: [f"{c}th-century paintings of {what}" for c in cents]
 CATS = {
  "shepherd": C([16, 17, 18, 19], "Jesus Christ as the Good Shepherd"),

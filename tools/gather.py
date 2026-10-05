@@ -7,7 +7,7 @@ Writes tools/candidates.json. Curation happens in tools/curate.json.
 import json, re, sys, time, urllib.request, urllib.parse, os
 
 HERE = os.path.dirname(__file__)
-UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (+https://github.com/shalone86/voxfidelium)"}
+UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (+https://github.com/shalone86/illuminatedrosary)"}
 
 def get(url, tries=3):
     for i in range(tries):

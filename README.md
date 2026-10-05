@@ -4,7 +4,7 @@ A mobile rosary, plus the Divine Mercy Chaplet, the Chaplet of the Seven
 Sorrows and the Chaplet of St. Michael, where every prayer has its own
 public-domain painting. Swipe left to pray onward.
 
-**Live app:** https://shalone86.github.io/voxfidelium/
+**Live app:** https://shalone86.github.io/illuminatedrosary/
 
 - Pick the Joyful, Sorrowful, Glorious or Luminous mysteries. Today's set is
   suggested for you.

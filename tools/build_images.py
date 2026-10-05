@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (+https://github.com/shalone86/voxfidelium)"}
+UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (+https://github.com/shalone86/illuminatedrosary)"}
 SOURCES = {"sdcason": "Free Catholic Gallery (sdcason.com)", "cleveland": "Cleveland Museum of Art", "met": "The Metropolitan Museum of Art", "wellcome": "Wellcome Collection", "rijks": "Rijksmuseum", "commons": "Wikimedia Commons"}
 MAX = 1400
 
