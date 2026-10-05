@@ -28,7 +28,15 @@
   "cma-130650",
   "cma-162536",
   "cma-128075",
-  "met-463648"
+  "met-463648",
+  "cma-136192",
+  "cma-138845",
+  "met-336137",
+  "met-360221",
+  "met-364709",
+  "met-367053",
+  "met-710492",
+  "met-468683"
  ],
  "nativity": [
   "sd-the-adoration-of-the-shepherds-1520-1529-by-lortolano-public",
@@ -102,7 +110,12 @@
   "sd-the-marriage-at-cana-folio-58-verso-from-a-mirror-of-holines",
   "sd-the-marriage-feast-at-cana-1672-by-bartolome-esteban-murillo",
   "sd-the-wedding-at-cana-by-giuseppe-maria-crespi-public-domain-c",
-  "met-436801"
+  "met-436801",
+  "sd-wedding-at-cana-1501-1600-german-by-hans-sebald-beham-public",
+  "met-710567",
+  "met-670578",
+  "met-814824",
+  "met-667730"
  ],
  "proclamation": [
   "sd-le-sermon-sur-la-montagne-sermon-on-the-mount-1849-by-nicola",
@@ -126,7 +139,13 @@
   "sd-transfiguration-possibly-15th-century-northern-europe-unknow",
   "sd-transfiguration-of-christ-illuminated-gospel-14th-15th-centu",
   "sd-transfiguration-1516-1520-by-raphael-public-domain-bible-pai",
-  "met-201366"
+  "met-201366",
+  "cma-113328",
+  "cma-139479",
+  "met-340574",
+  "met-396179",
+  "met-652242",
+  "met-419870"
  ],
  "eucharist": [
   "sd-triptych-with-the-last-supper-and-donors-1525-1530-by-circle",
@@ -150,7 +169,14 @@
   "sd-the-agony-in-the-garden-1568-1640-by-giuseppe-cesari-public-",
   "cma-108995",
   "met-472158",
-  "met-437371"
+  "met-437371",
+  "cma-104613",
+  "cma-105857",
+  "met-388411",
+  "met-336227",
+  "met-392062",
+  "met-469915",
+  "met-210779"
  ],
  "scourging": [
   "sd-the-flagellation-1400-by-master-of-the-berswordt-altar-publi",
@@ -159,7 +185,14 @@
   "cma-124117",
   "met-459021",
   "met-437497",
-  "met-468101"
+  "met-468101",
+  "cma-102533",
+  "cma-105432",
+  "cma-108383",
+  "met-382392",
+  "met-817149",
+  "met-471069",
+  "met-201592"
  ],
  "crowning": [
   "sd-the-crowning-with-thorns-1618-1620-by-anthony-van-dyck-publi",
@@ -255,7 +288,11 @@
   "sd-hours-of-charles-the-noble-king-of-navarre-1361-1425-fol-137",
   "sd-the-pentecost-from-a-book-of-hours-1430-french-public-domain",
   "sd-miniature-from-a-book-of-hours-the-pentecost-1500-by-jean-po",
-  "cma-106343"
+  "cma-106343",
+  "met-710573",
+  "met-359445",
+  "met-388071",
+  "met-815780"
  ],
  "assumption": [
   "sd-the-assumption-of-the-virgin-around-1760-by-francisco-bayeu-",
@@ -264,7 +301,16 @@
   "met-458998",
   "met-198995",
   "met-435656",
-  "sd-the-ascension-of-our-lady-1660-1709-by-giovanni-battista-gau"
+  "sd-the-ascension-of-our-lady-1660-1709-by-giovanni-battista-gau",
+  "cma-136183",
+  "cma-132129",
+  "met-340616",
+  "met-363362",
+  "met-710575",
+  "met-339410",
+  "met-400343",
+  "met-340150",
+  "met-396164"
  ],
  "coronation": [
   "sd-leaf-from-an-antiphonary-coronation-of-the-virgin-1400s-attr",
@@ -287,7 +333,10 @@
   "sd-almighty-god-the-father-by-antoine-coypel-public-domain-cath",
   "sd-god-the-father-and-the-holy-spirit-by-pompeo-batoni-18th-cen",
   "met-438415",
-  "sd-the-trinity-1460-by-laurent-girardin-public-domain-catholic-"
+  "sd-the-trinity-1460-by-laurent-girardin-public-domain-catholic-",
+  "met-340630",
+  "met-427410",
+  "met-340143"
  ],
  "trinity": [
   "sd-the-trinity-with-souls-in-purgatory-early-1740s-by-corrado-g",
@@ -335,7 +384,11 @@
  ],
  "shepherd": [
   "sd-the-good-shepherd-1931-gebhard-fugel-public-domain-catholic-",
-  "sd-the-good-shepherd-1870-france-romain-cazes-public-domain-cat"
+  "met-368563",
+  "met-913308",
+  "met-736590",
+  "met-382506",
+  "met-670724"
  ],
  "rosary": [
   "sd-the-virgin-of-the-rosary-1650-1655-by-bartolome-esteban-muri",
@@ -343,8 +396,8 @@
  ],
  "_covers": {
   "joyful": "sd-the-annunciation-1480-by-albert-bouts-public-domain-catholic",
-  "luminous": "sd-transfiguration-ethiopian-16th-century-public-domain-byzanti",
-  "sorrowful": "sd-the-christ-in-the-garden-of-olives-le-christ-au-jardin-des-o",
+  "luminous": "sd-transfiguration-1516-1520-by-raphael-public-domain-bible-pai",
+  "sorrowful": "sd-christ-carrying-the-cross-1565-by-titian-public-domain-catho",
   "glorious": "sd-the-risen-christ-appearing-to-the-virgin-1708-by-francesco-s"
  }
 }

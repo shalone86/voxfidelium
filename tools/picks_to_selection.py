@@ -22,7 +22,8 @@ for line in open(os.path.join(HERE, "picks.txt")):
             a = {"c": C, "w": W, "m": M}[kind][pool][int(r)]
             if kind != "c": extra[a["id"]] = a
         if a["id"] not in out: out.append(a["id"])
-covers = {"joyful": sel["annunciation"][0], "luminous": sel["transfiguration"][0], "sorrowful": sel["agony"][0], "glorious": sel["resurrection"][0]}
+# cover art for the four mystery cards on the home screen
+covers = {"joyful": C["annunciation"][0]["id"], "luminous": C["transfiguration"][4]["id"], "sorrowful": C["carrying"][1]["id"], "glorious": C["resurrection"][0]["id"]}
 sel["_covers"] = covers
 json.dump(sel, open(os.path.join(HERE, "selection.json"), "w"), indent=1)
 json.dump(list(extra.values()), open(os.path.join(HERE, "extra.json"), "w"), indent=1)
