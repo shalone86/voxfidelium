@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Illuminated Rosary</title>
+  <meta name="description" content="Pray the Rosary through sacred art: a public-domain painting for every prayer.">
+  <meta name="theme-color" content="#0d0b09">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <!-- Start screen -->
+  <main id="home" class="screen" aria-label="Choose your rosary">
+    <div class="home-bg" aria-hidden="true"></div>
+    <header class="home-head">
+      <p class="eyebrow">Vox Fidelium</p>
+      <h1>The Illuminated Rosary</h1>
+      <p class="sub">A painting for every prayer. Swipe left to pray onward.</p>
+    </header>
+
+    <section id="resume" class="resume" hidden>
+      <button class="resume-btn" data-action="resume">
+        <span class="resume-label">Continue where you left off</span>
+        <span class="resume-detail"></span>
+      </button>
+    </section>
+
+    <section class="block">
+      <h2 class="rubric">Mysteries</h2>
+      <div id="sets" class="sets" role="radiogroup" aria-label="Mysteries"></div>
+    </section>
+
+    <section class="block">
+      <h2 class="rubric">Prayers</h2>
+      <label class="row"><span>Opening prayers<small>Sign of the Cross, Creed, Our Father, three Hail Marys, Glory Be</small></span><input type="checkbox" data-setting="opening" class="switch"></label>
+      <label class="row"><span>Closing prayers<small>Hail, Holy Queen and the Rosary prayer</small></span><input type="checkbox" data-setting="closing" class="switch"></label>
+    </section>
+
+    <section class="block">
+      <h2 class="rubric">Viewing</h2>
+      <div class="settings-list" data-settings></div>
+    </section>
+
+    <footer class="home-foot">
+      <button class="linkish" data-action="credits">About &amp; image credits</button>
+    </footer>
+
+    <div class="begin-bar">
+      <button class="begin" data-action="begin">Begin the Rosary</button>
+    </div>
+  </main>
+
+  <!-- Prayer screen -->
+  <section id="pray" class="screen" hidden aria-label="Rosary">
+    <div id="track" class="track"></div>
+
+    <div class="chrome top">
+      <button class="icon-btn" data-action="menu" aria-label="Menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="where">
+        <div class="where-line" id="whereLine"></div>
+        <div class="beads" id="beads" aria-hidden="true"></div>
+      </div>
+      <button class="icon-btn" data-action="info" aria-label="About this artwork">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>
+      </button>
+    </div>
+    <div class="progress" aria-hidden="true"><div id="progressFill"></div></div>
+    <div class="auto-bar" aria-hidden="true"><div id="autoFill"></div></div>
+    <div class="hint" id="swipeHint" hidden>
+      <span>Swipe left to continue</span>
+      <svg viewBox="0 0 48 24" aria-hidden="true"><path d="M44 12H6M14 4l-8 8 8 8"/></svg>
+    </div>
+    <div class="desk-nav">
+      <button class="icon-btn" data-action="prev" aria-label="Previous prayer"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="icon-btn" data-action="next" aria-label="Next prayer"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </section>
+
+  <!-- Bottom sheets -->
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-scrim" data-action="close-sheet"></div>
+    <div class="sheet-panel" role="dialog" aria-modal="true">
+      <div class="sheet-grip"></div>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
