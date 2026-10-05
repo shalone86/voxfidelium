@@ -17,6 +17,7 @@ const settings = Object.assign({
   kenBurns: !reduceMotion, fit: "fit", lang: "en", text: "full", auto: 0,
 }, store.get("settings", {}));
 const saveSettings = () => store.set("settings", settings);
+if (![0, 5, 10, 15, 20].includes(settings.auto)) settings.auto = 20; // older builds offered 35s/60s
 
 function todaysSet() {
   const d = new Date().getDay();
@@ -141,7 +142,7 @@ const OPTIONS = [
   { key: "fit", label: "Painting", hint: "Whole painting, or fill the screen", type: "seg", options: [["fit", "Whole"], ["fill", "Fill"]] },
   { key: "text", label: "Prayer text", hint: "Minimal hides the words; tap the image to reveal", type: "seg", options: [["full", "Full"], ["minimal", "Minimal"]] },
   { key: "lang", label: "Language", type: "seg", options: [["en", "English"], ["la", "Latin"]] },
-  { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [20, "20s"], [35, "35s"], [60, "60s"]] },
+  { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [5, "5s"], [10, "10s"], [15, "15s"], [20, "20s"]] },
 ];
 
 function renderSettings(host) {
@@ -179,9 +180,8 @@ function applySettings() {
   pray.classList.toggle("fill", settings.fit === "fill");
   pray.classList.toggle("minimal", settings.text === "minimal");
   if (session) {
-    if (session.lang !== settings.lang) { session.lang = settings.lang; renderTrack(); }
-    else document.querySelectorAll(".slide").forEach((s) => applyKenBurns(s, s.classList.contains("current")));
-    scheduleAuto();
+    session.lang = settings.lang;
+    renderTrack();
   }
 }
 
@@ -257,6 +257,7 @@ function makeSlide(idx) {
     el.appendChild(bd);
     const art = document.createElement("div");
     art.className = "art";
+    initKenBurns(art);
     const img = new Image();
     img.alt = `${a.title}${a.artist ? ", " + a.artist : ""}`;
     img.decoding = "async";
@@ -265,18 +266,16 @@ function makeSlide(idx) {
     if (img.complete) img.classList.add("loaded");
     art.appendChild(img);
     el.appendChild(art);
+    applyKenBurns(el, false);
   }
   el.insertAdjacentHTML("beforeend", slideHTML(step));
   return el;
 }
 
-function applyKenBurns(slide, active) {
-  const art = $(".art", slide);
-  if (!art) return;
-  const on = settings.kenBurns && active;
-  slide.classList.toggle("kb", on);
-  if (!on) { art.style.animation = "none"; art.style.transform = ""; return; }
-  art.style.animation = "";
+// Each slide gets its pan/zoom path when it is created and rests on the path's first
+// frame while it waits off-screen, so the animation starts exactly where the slide
+// already is when it swipes in (no jump).
+function initKenBurns(art) {
   const r = (a, b) => (a + Math.random() * (b - a)).toFixed(3);
   const fill = settings.fit === "fill";
   const zoomIn = Math.random() < 0.6;
@@ -290,8 +289,13 @@ function applyKenBurns(slide, active) {
   art.style.setProperty("--x1", r(-pan, pan) + "%");
   art.style.setProperty("--y1", r(-pan, pan) + "%");
   art.style.setProperty("--kb-dur", r(18, 26) + "s");
-  // restart the animation
-  art.style.animation = "none"; void art.offsetWidth; art.style.animation = "";
+}
+
+function applyKenBurns(slide, active) {
+  const art = $(".art", slide);
+  if (!art) return;
+  art.style.transform = settings.kenBurns ? "scale(var(--s0)) translate(var(--x0), var(--y0))" : "";
+  slide.classList.toggle("kb", settings.kenBurns && active);
 }
 
 let slides = []; // [prev, cur, next]
@@ -492,13 +496,66 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
 
 /* ---------------- sheets ---------------- */
 function openSheet(html) {
+  const sheet = $("#sheet"), panel = $(".sheet-panel");
   $("#sheetBody").innerHTML = html;
-  $("#sheet").hidden = false;
+  sheet.classList.remove("closing");
+  panel.style.transform = "";
+  panel.scrollTop = 0;
+  sheet.hidden = false;
   clearAuto();
 }
+let closeTimer = 0;
 function closeSheet() {
-  $("#sheet").hidden = true;
-  if (!$("#pray").hidden) scheduleAuto();
+  const sheet = $("#sheet"), panel = $(".sheet-panel");
+  if (sheet.hidden || sheet.classList.contains("closing")) return;
+  sheet.classList.add("closing");
+  panel.style.transform = "";
+  clearTimeout(closeTimer);
+  closeTimer = setTimeout(() => {
+    sheet.hidden = true;
+    sheet.classList.remove("closing");
+    $(".sheet-scrim").style.opacity = "";
+    if (!$("#pray").hidden) scheduleAuto();
+  }, 260);
+}
+
+// Pull the sheet down to dismiss it: from the grip/header anywhere, or from the
+// content once it is scrolled to the top.
+function setupSheetDrag() {
+  const panel = $(".sheet-panel"), scrim = $(".sheet-scrim");
+  let y0 = null, dy = 0, t0 = 0, dragging = false;
+  const start = (y) => { y0 = y; dy = 0; t0 = performance.now(); dragging = false; };
+  const move = (y, e) => {
+    if (y0 == null) return;
+    const d = y - y0;
+    if (!dragging) {
+      if (d > 6 && panel.scrollTop <= 0) { dragging = true; panel.classList.add("dragging"); }
+      else if (Math.abs(d) > 6) { y0 = null; return; }
+      else return;
+    }
+    dy = Math.max(0, d);
+    panel.style.transform = `translateY(${dy}px)`;
+    scrim.style.opacity = String(Math.max(0, 1 - dy / 400));
+    if (e.cancelable) e.preventDefault();
+  };
+  const end = () => {
+    if (dragging) {
+      panel.classList.remove("dragging");
+      const v = dy / Math.max(1, performance.now() - t0);
+      if (dy > 100 || (v > 0.5 && dy > 30)) closeSheet();
+      else { panel.style.transform = ""; scrim.style.opacity = ""; }
+    }
+    y0 = null; dragging = false;
+  };
+  panel.addEventListener("touchstart", (e) => start(e.touches[0].clientY), { passive: true });
+  panel.addEventListener("touchmove", (e) => move(e.touches[0].clientY, e), { passive: false });
+  panel.addEventListener("touchend", end);
+  panel.addEventListener("touchcancel", end);
+  // mouse: drag by the grip
+  const grip = $(".sheet-grab");
+  grip.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse" || e.target.closest("button")) return; grip.setPointerCapture(e.pointerId); start(e.clientY); });
+  grip.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse" && y0 != null) move(e.clientY, e); });
+  grip.addEventListener("pointerup", (e) => { if (e.pointerType === "mouse") end(); });
 }
 
 function esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
@@ -602,6 +659,7 @@ document.addEventListener("click", (e) => {
 (async function boot() {
   await loadArt();
   setupGestures();
+  setupSheetDrag();
   renderHome();
   if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 })();
