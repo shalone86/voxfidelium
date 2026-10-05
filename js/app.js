@@ -22,7 +22,7 @@ const store = {
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const settings = Object.assign({
   set: todaysSet(), opening: true, closing: true,
-  kenBurns: !reduceMotion, fit: "fit", lang: "en", text: "full", auto: 0,
+  kenBurns: !reduceMotion, fit: "fit", lang: "en", text: "full", auto: 0, music: "off",
 }, store.get("settings", {}));
 const saveSettings = () => store.set("settings", settings);
 if (!DEVOTIONS[settings.set]) settings.set = todaysSet();
@@ -252,6 +252,7 @@ const OPTIONS = [
   { key: "fit", label: "Painting", hint: "Whole painting, or fill the screen", type: "seg", options: [["fit", "Whole"], ["fill", "Fill"]] },
   { key: "text", label: "Prayer text", hint: "Minimal hides the words; tap the image to reveal", type: "seg", options: [["full", "Full"], ["minimal", "Minimal"]] },
   { key: "lang", label: "Language", type: "seg", options: [["en", "English"], ["la", "Latin"]] },
+  { key: "music", label: "Music", hint: "Quiet classical recordings from Musopen", type: "seg", options: [["off", "Off"], ["on", "On"]] },
   { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [5, "5s"], [10, "10s"], [15, "15s"], [20, "20s"]] },
 ];
 
@@ -292,6 +293,7 @@ function applySettings() {
   if (session) {
     session.lang = settings.lang;
     renderTrack();
+    if (settings.music === "on") music.start(session.set); else music.stop();
   }
 }
 
@@ -514,6 +516,8 @@ function go(delta) {
     preload();
     scheduleAuto();
     saveSession();
+    if (session.steps[target].type === "end") music.fadeOut(6000);
+    else if (delta < 0 && session.steps[session.index + 1]?.type === "end") music.resume();
     if (queued) { const q = queued; queued = 0; go(q); }
   };
   track.addEventListener("transitionend", done);
@@ -603,6 +607,81 @@ function scheduleAuto() {
   f.style.width = "100%";
   autoTimer = setTimeout(() => go(1), ms);
 }
+
+/* ---------------- music ---------------- */
+// One continuous playlist per session, matched to the devotion's mood. Volume fades go
+// through Web Audio because iOS ignores HTMLMediaElement.volume.
+const SORROWFUL = ["sorrowful", "sevenSorrows", "divineMercy"];
+const music = {
+  tracks: null, el: null, ctx: null, gain: null, list: [], i: 0, mood: null, wanted: false,
+  async load() {
+    if (!this.tracks) { try { this.tracks = (await (await fetch("data/music.json")).json()).tracks; } catch { this.tracks = []; } }
+    return this.tracks;
+  },
+  ensure() {
+    if (this.el) return;
+    this.el = new Audio();
+    this.el.preload = "auto";
+    this.el.addEventListener("ended", () => this.next());
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AC();
+      this.gain = this.ctx.createGain();
+      this.ctx.createMediaElementSource(this.el).connect(this.gain).connect(this.ctx.destination);
+    } catch { this.ctx = null; }
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.setActionHandler("play", () => this.resume());
+      navigator.mediaSession.setActionHandler("pause", () => this.pause());
+      navigator.mediaSession.setActionHandler("nexttrack", () => this.next());
+    }
+  },
+  fade(to, ms) {
+    if (this.gain) {
+      const g = this.gain.gain, t = this.ctx.currentTime;
+      g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); g.linearRampToValueAtTime(to, t + ms / 1000);
+    } else this.el.volume = to;
+  },
+  // must be called from a user gesture (Begin / Continue / the toggle) the first time
+  start(key) {
+    this.wanted = true;
+    this.ensure();
+    if (this.ctx && this.ctx.state === "suspended") this.ctx.resume();
+    if (!this.tracks) { this.load().then(() => this.wanted && this.start(key)); return; }
+    const tracks = this.tracks;
+    if (!tracks.length) return;
+    const mood = SORROWFUL.includes(key) ? "sorrowful" : "peaceful";
+    if (mood !== this.mood || !this.list.length) {
+      this.mood = mood;
+      this.list = shuffle(tracks.filter((t) => t.moods.includes(mood)));
+      this.i = 0;
+      this.play(true);
+    } else this.resume();
+  },
+  play(fadeIn) {
+    const t = this.list[this.i % this.list.length];
+    this.el.src = t.src;
+    if (fadeIn) { if (this.gain) this.gain.gain.value = 0; this.fade(1, 3000); } else this.fade(1, 50);
+    this.el.play().catch(() => {});
+    if ("mediaSession" in navigator && window.MediaMetadata) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: t.title, artist: t.composer, album: "The Illuminated Rosary", artwork: [{ src: "icons/icon-512.png", sizes: "512x512", type: "image/png" }] });
+    }
+  },
+  next() { if (!this.list.length) return; this.i++; this.play(false); },
+  resume() { if (!this.el || !this.wanted) return; if (this.ctx && this.ctx.state === "suspended") this.ctx.resume(); this.fade(1, 1500); this.el.play().catch(() => {}); },
+  pause() { if (this.el) this.el.pause(); },
+  fadeOut(ms = 2500) {
+    if (!this.el || this.el.paused) return;
+    this.fade(0, ms);
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.el.pause(), ms + 50);
+  },
+  stop() { this.wanted = false; this.mood = null; this.list = []; this.fadeOut(1500); },
+  now() { return this.el && !this.el.paused && this.list.length ? this.list[this.i % this.list.length] : null; },
+};
+document.addEventListener("visibilitychange", () => {
+  if (!music.wanted || $("#pray").hidden) return;
+  if (document.visibilityState === "hidden") music.pause(); else if (session && session.index < session.steps.length - 1) music.resume();
+});
 
 /* ---------------- wake lock ---------------- */
 async function keepAwake() {
@@ -701,6 +780,7 @@ function openMenu() {
     <p class="meta">${esc(describeStep(session.steps[session.index], session.set, lang))}</p>
     <div class="jump">${jumps.map(([i, l, r]) => `<button data-jump="${i}" class="${curSection && curSection[0] === i ? "current" : ""}"><span>${esc(l)}</span><span>${esc(r)}</span></button>`).join("")}</div>
     <section><h2 class="rubric">Viewing</h2><div data-settings></div></section>
+    ${music.now() ? `<p class="now-playing">♪ ${esc(music.now().composer)} — ${esc(music.now().title)} <button class="linkish" data-action="next-track">Next</button></p>` : ""}
     <button class="danger" data-action="home">End &amp; return home</button>`);
   renderSettings($("#sheetBody [data-settings]"));
 }
@@ -713,9 +793,11 @@ function openCredits() {
   openSheet(`<h3>About</h3>
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
-      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Scripture is from the Douay-Rheims Bible.</p>
+      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings. Scripture is from the Douay-Rheims Bible.</p>
       <p><a href="https://github.com/shalone86/illuminatedrosary" target="_blank" rel="noopener">Source on GitHub</a></p>
     </div>
+    ${music.tracks && music.tracks.length ? `<section><h2 class="rubric">Music · Musopen · ${music.tracks.length}</h2><ul class="credits-list">${music.tracks
+      .map((t) => `<li><a href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.title)}</a> <span class="who">— ${esc(t.composer)}</span></li>`).join("")}</ul></section>` : ""}
     ${Object.entries(bySource).map(([src, list]) => `<section><h2 class="rubric">${esc(src)} · ${list.length}</h2><ul class="credits-list">${list
       .map((a) => `<li><a href="${esc(a.link)}" target="_blank" rel="noopener">${esc(a.title)}</a> <span class="who">— ${esc([a.artist, a.date].filter(Boolean).join(", "))}</span></li>`).join("")}</ul></section>`).join("")}`);
 }
@@ -738,6 +820,7 @@ function startRosary(fresh = true, push = true) {
 
 function goHome() {
   clearAuto();
+  music.stop();
   closeSheet();
   if (session && session.index >= session.steps.length - 1) store.del("session");
   session = null;
@@ -764,8 +847,9 @@ document.addEventListener("click", (e) => {
   else if (act === "menu") openMenu();
   else if (act === "info") openInfo();
   else if (act === "close-sheet") closeSheet();
-  else if (act === "credits") openCredits();
+  else if (act === "credits") music.load().then(openCredits);
   else if (act === "next") go(1);
+  else if (act === "next-track") { music.next(); openMenu(); }
   else if (act === "prev") go(-1);
   else if (act === "home") { if (history.state && history.state.pray) history.back(); else goHome(); }
   else if (act === "again") { store.del("session"); startRosary(true, false); }
@@ -777,5 +861,6 @@ document.addEventListener("click", (e) => {
   setupGestures();
   setupSheetDrag();
   renderHome();
+  music.load(); // so a tap on Begin can start audio synchronously (iOS)
   if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 })();

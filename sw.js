@@ -1,5 +1,5 @@
 // App shell is network-first (so updates land); artwork is cache-first.
-const SHELL = "shell-v3";
+const SHELL = "shell-v4";
 const ART = "art-v1";
 const SHELL_FILES = ["./", "index.html", "css/app.css", "js/app.js", "js/prayers.js", "data/art.json", "manifest.webmanifest", "icons/icon-192.png"];
 
@@ -12,6 +12,8 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET") return;
+  // audio uses range requests, which the Cache API can't store; leave it to the network
+  if (url.pathname.includes("/music/")) return;
   if (url.origin === location.origin && url.pathname.includes("/img/")) {
     e.respondWith(caches.open(ART).then(async (c) => {
       const hit = await c.match(e.request);

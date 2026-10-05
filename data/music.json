@@ -1,0 +1,234 @@
+{
+ "tracks": [
+  {
+   "id": "suk-meditation",
+   "src": "music/suk-meditation.mp3",
+   "composer": "Josef Suk",
+   "title": "Meditation on the Old Czech Hymn “St. Wenceslas”",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 405,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "bach-goldberg-aria",
+   "src": "music/bach-goldberg-aria.mp3",
+   "composer": "J. S. Bach",
+   "title": "Goldberg Variations: Aria",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 292,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "bach-goldberg-13",
+   "src": "music/bach-goldberg-13.mp3",
+   "composer": "J. S. Bach",
+   "title": "Goldberg Variations: Variation 13",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 339,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "bach-goldberg-aria-da-capo",
+   "src": "music/bach-goldberg-aria-da-capo.mp3",
+   "composer": "J. S. Bach",
+   "title": "Goldberg Variations: Aria da capo",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 340,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "bach-goldberg-15",
+   "src": "music/bach-goldberg-15.mp3",
+   "composer": "J. S. Bach",
+   "title": "Goldberg Variations: Variation 15 (Canon at the Fifth)",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 287,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "bach-goldberg-25",
+   "src": "music/bach-goldberg-25.mp3",
+   "composer": "J. S. Bach",
+   "title": "Goldberg Variations: Variation 25",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 411,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "haydn-lark-adagio",
+   "src": "music/haydn-lark-adagio.mp3",
+   "composer": "Joseph Haydn",
+   "title": "String Quartet “The Lark”: Adagio cantabile",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 292,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "mozart-k465-andante",
+   "src": "music/mozart-k465-andante.mp3",
+   "composer": "W. A. Mozart",
+   "title": "String Quartet No. 19, K. 465: Andante cantabile",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 461,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "mozart-k421-andante",
+   "src": "music/mozart-k421-andante.mp3",
+   "composer": "W. A. Mozart",
+   "title": "String Quartet No. 15, K. 421: Andante",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 315,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "beethoven-op18-6-adagio",
+   "src": "music/beethoven-op18-6-adagio.mp3",
+   "composer": "Ludwig van Beethoven",
+   "title": "String Quartet Op. 18 No. 6: Adagio ma non troppo",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 422,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "dvorak-american-lento",
+   "src": "music/dvorak-american-lento.mp3",
+   "composer": "Antonín Dvořák",
+   "title": "String Quartet “American”: Lento",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 472,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "dvorak-op51-romanza",
+   "src": "music/dvorak-op51-romanza.mp3",
+   "composer": "Antonín Dvořák",
+   "title": "String Quartet No. 10: Romanza",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 367,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "schubert-d664-andante",
+   "src": "music/schubert-d664-andante.mp3",
+   "composer": "Franz Schubert",
+   "title": "Piano Sonata in A major, D. 664: Andante",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 291,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "schubert-d568-andante",
+   "src": "music/schubert-d568-andante.mp3",
+   "composer": "Franz Schubert",
+   "title": "Piano Sonata in E-flat major, D. 568: Andante molto",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 417,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "schubert-d784-andante",
+   "src": "music/schubert-d784-andante.mp3",
+   "composer": "Franz Schubert",
+   "title": "Piano Sonata in A minor, D. 784: Andante",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 230,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "schubert-d959-andantino",
+   "src": "music/schubert-d959-andantino.mp3",
+   "composer": "Franz Schubert",
+   "title": "Piano Sonata in A major, D. 959: Andantino",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 546,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "schubert-d958-adagio",
+   "src": "music/schubert-d958-adagio.mp3",
+   "composer": "Franz Schubert",
+   "title": "Piano Sonata in C minor, D. 958: Adagio",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 468,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "mendelssohn-scottish-adagio",
+   "src": "music/mendelssohn-scottish-adagio.mp3",
+   "composer": "Felix Mendelssohn",
+   "title": "“Scottish” Symphony: Adagio",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 572,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "brahms-3-andante",
+   "src": "music/brahms-3-andante.mp3",
+   "composer": "Johannes Brahms",
+   "title": "Symphony No. 3: Andante",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 529,
+   "source": "Musopen (public domain)",
+   "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  }
+ ]
+}

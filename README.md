@@ -16,6 +16,10 @@ public-domain painting. Swipe left to pray onward.
 - Ken Burns motion (on or off), whole-painting or full-bleed display, English
   or Latin, a minimal text mode, a hands-free timer, keep-screen-awake, resume
   where you left off, and offline install (PWA).
+- Optional background music: quiet public-domain recordings from Musopen
+  (Bach, Suk, Haydn, Mozart, Schubert…), with a peaceful playlist for the
+  Joyful, Luminous and Glorious mysteries and St. Michael, and a more
+  contemplative one for the Sorrowful mysteries, Seven Sorrows and Divine Mercy.
 - Tap ⓘ for the artwork's title, artist, date and source.
 
 See [WORKSHOP.md](WORKSHOP.md) for the design concepts that were considered and
@@ -28,6 +32,7 @@ index.html, css/, js/          the app (vanilla JS, no build step)
 js/prayers.js                  prayer texts (EN/LA), mysteries, chaplets, scripture
 data/art.json                  generated image catalogue (pools → artworks)
 img/                           resized artwork (max 1400px)
+music/, data/music.json        background music (python3 tools/build_music.py)
 sw.js, manifest.webmanifest    offline support and install
 tools/                         scripts that gather, curate and build the art
 .nojekyll                      served as-is by GitHub Pages (main branch, root)

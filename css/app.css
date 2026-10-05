@@ -210,6 +210,8 @@ h1 { font-weight: 500; font-size: clamp(34px, 9vw, 48px); line-height: 1.05; mar
 .jump button { text-align: left; padding: 9px 14px; font-size: 17px; align-items: baseline; border-radius: 10px; background: var(--panel-2); display: flex; justify-content: space-between; gap: 10px; }
 .jump button.current { outline: 1px solid var(--gold); }
 .jump button span:last-child { color: var(--ink-faint); font-size: 15px; }
+.now-playing { margin: 18px 0 0; color: var(--ink-soft); font-size: 16px; font-style: italic; }
+.now-playing .linkish { font-size: 15px; font-style: normal; margin-left: 6px; }
 .danger { width: 100%; margin-top: 18px; padding: 13px; border-radius: 12px; border: 1px solid rgba(216,106,85,.6); color: var(--rubric); font-family: var(--caps); letter-spacing: .12em; font-size: 13px; }
 .credits-list { list-style: none; padding: 0; margin: 0; font-size: 15px; }
 .credits-list li { padding: 7px 0; border-bottom: 1px solid var(--line); }
