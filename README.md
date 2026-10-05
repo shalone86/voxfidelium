@@ -29,7 +29,7 @@ data/art.json                  generated image catalogue (pools → artworks)
 img/                           resized artwork (max 1400px)
 sw.js, manifest.webmanifest    offline support and install
 tools/                         scripts that gather, curate and build the art
-.github/workflows/pages.yml    deploys to GitHub Pages
+.nojekyll                      served as-is by GitHub Pages (main branch, root)
 ```
 
 ## Rebuilding the art
