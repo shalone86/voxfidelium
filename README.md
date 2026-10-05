@@ -25,6 +25,9 @@ every prayer has its own public-domain painting. Swipe left to pray onward.
   opening prayers and "It is truly right").
 - "Fill" mode crops each painting around its faces (focal points found with
   OpenCV's YuNet detector, `tools/focal_points.py`).
+- Installable app (PWA): an "Install app" link on Android and desktop, and
+  instructions for iPhone. "Save all paintings for offline" (in About) caches
+  every painting, about 90 MB.
 - Tap ⓘ for the artwork's title, artist, date and source.
 
 See [WORKSHOP.md](WORKSHOP.md) for the design concepts that were considered and
@@ -42,6 +45,13 @@ sw.js, manifest.webmanifest    offline support and install
 tools/                         scripts that gather, curate and build the art
 .nojekyll                      served as-is by GitHub Pages (main branch, root)
 ```
+
+## Checking content
+
+`node tools/validate.mjs` checks the prayer texts, devotion definitions, image
+catalogue and music list for broken references. It also runs on every push in
+GitHub Actions. If `data/art.json` is ever unreadable, the app still runs with
+prayer text only.
 
 ## Rebuilding the art
 

@@ -1,0 +1,15 @@
+name: Validate content
+
+# Checks prayers, devotions, the image catalogue and the music list on every push.
+# (GitHub Pages deploys straight from main, so a failure here is a warning to fix, not a block.)
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node tools/validate.mjs

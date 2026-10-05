@@ -1,7 +1,7 @@
 // App shell is network-first (so updates land); artwork is cache-first.
-const SHELL = "shell-v4";
+const SHELL = "shell-v5";
 const ART = "art-v1";
-const SHELL_FILES = ["./", "index.html", "css/app.css", "js/app.js", "js/prayers.js", "data/art.json", "manifest.webmanifest", "icons/icon-192.png"];
+const SHELL_FILES = ["./", "index.html", "css/app.css", "js/app.js", "js/prayers.js", "data/art.json", "data/music.json", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(SHELL).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));

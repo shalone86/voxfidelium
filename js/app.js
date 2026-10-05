@@ -45,10 +45,20 @@ function todaysSet() {
 let ART = { pools: {} };
 const artById = new Map();
 
+// A broken or missing catalogue must not stop anyone praying: fall back to text-only slides,
+// and skip individual entries that are malformed.
 async function loadArt() {
-  const r = await fetch("data/art.json");
-  ART = await r.json();
-  for (const [pool, list] of Object.entries(ART.pools)) for (const a of list) { a.pool = pool; artById.set(a.id, a); }
+  try {
+    const data = await (await fetch("data/art.json")).json();
+    ART = { pools: {}, covers: data.covers || {} };
+    for (const [pool, list] of Object.entries(data.pools || {})) {
+      ART.pools[pool] = (Array.isArray(list) ? list : []).filter((a) => a && a.id && a.src);
+      for (const a of ART.pools[pool]) { a.pool = pool; artById.set(a.id, a); }
+    }
+  } catch (e) {
+    console.warn("art catalogue unavailable; continuing without paintings", e);
+    ART = { pools: {}, covers: {} };
+  }
 }
 
 function shuffle(arr) {
@@ -419,6 +429,11 @@ function makeSlide(idx) {
     art.appendChild(img);
     el.appendChild(art);
     applyKenBurns(el, false);
+    // Fill would crop away too much of this painting on this screen: show it whole instead
+    if (a.w && a.h) {
+      const ar = a.w / a.h, sr = innerWidth / innerHeight;
+      if (Math.min(ar / sr, sr / ar) < 0.55) el.classList.add("whole");
+    }
   }
   el.insertAdjacentHTML("beforeend", slideHTML(step));
   return el;
@@ -814,11 +829,19 @@ function openMenu() {
 }
 
 function openCredits() {
+  offlineStatus().then((st) => {
+    if (!st || !$("#offlineNote")) return;
+    if (st.done >= st.total) { $("#offlineNote").textContent = `All ${st.total} paintings are saved for offline prayer.`; $("[data-action=save-offline]").hidden = true; }
+    else if (st.done) $("#offlineNote").textContent += ` ${st.done} of ${st.total} already saved.`;
+  });
   const all = Object.values(ART.pools).flat();
   const uniq = [...new Map(all.map((a) => [a.id, a])).values()];
   const bySource = {};
   for (const a of uniq) (bySource[a.source] ||= []).push(a);
   openSheet(`<h3>About</h3>
+    <section class="offline" ${"caches" in window ? "" : "hidden"}><h2 class="rubric">Offline</h2>
+      <p class="meta" id="offlineNote">Paintings are kept after you've seen them. Save them all to pray without a connection (about 90 MB; music still needs a connection).</p>
+      <button class="save-offline" data-action="save-offline">Save all paintings for offline</button></section>
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
       <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Instrumental music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings; chant and choral recordings are public-domain or CC0 recordings from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> and <a href="https://freesound.org" target="_blank" rel="noopener">Freesound</a>. Scripture is from the Douay-Rheims Bible.</p>
@@ -877,6 +900,8 @@ document.addEventListener("click", (e) => {
   else if (act === "info") openInfo();
   else if (act === "close-sheet") closeSheet();
   else if (act === "credits") music.load().then(openCredits);
+  else if (act === "install") install();
+  else if (act === "save-offline") saveOffline(b, $("#offlineNote"));
   else if (act === "next") go(1);
   else if (act === "next-track") { music.next(); openMenu(); }
   else if (act === "prev") go(-1);
@@ -884,12 +909,59 @@ document.addEventListener("click", (e) => {
   else if (act === "again") { store.del("session"); startRosary(true, false); }
 });
 
+/* ---------------- install & offline ---------------- */
+// Chrome/Android/desktop fire beforeinstallprompt; iOS Safari needs Share → Add to Home Screen.
+let installEvent = null;
+const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installEvent = e; showInstall(); });
+window.addEventListener("appinstalled", () => { installEvent = null; showInstall(); });
+function showInstall() { $("[data-action=install]").hidden = standalone() || !(installEvent || isIOS); }
+async function install() {
+  if (installEvent) { installEvent.prompt(); await installEvent.userChoice.catch(() => {}); installEvent = null; showInstall(); return; }
+  openSheet(`<h3>Install on your iPhone</h3><div class="prose">
+    <p>1. Tap the <b>Share</b> button in Safari's toolbar.</p>
+    <p>2. Choose <b>Add to Home Screen</b>.</p>
+    <p>The rosary then opens full-screen like an app, and it works offline.</p></div>`);
+}
+
+const ART_CACHE = "art-v1";
+function allImages() { return [...new Set(Object.values(ART.pools).flat().map((a) => a.src))]; }
+async function offlineStatus() {
+  if (!("caches" in window)) return null;
+  const cache = await caches.open(ART_CACHE);
+  const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  const all = allImages();
+  return { done: all.filter((src) => have.has(new URL(src, location.href).pathname)).length, total: all.length };
+}
+async function saveOffline(btn, note) {
+  if (!("caches" in window)) return;
+  try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch {}
+  btn.disabled = true;
+  const cache = await caches.open(ART_CACHE);
+  const have = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  const todo = allImages().filter((src) => !have.has(new URL(src, location.href).pathname));
+  const total = allImages().length;
+  let done = total - todo.length, failed = 0;
+  const worker = async () => {
+    while (todo.length) {
+      const src = todo.shift();
+      try { await cache.add(src); } catch { failed++; }
+      done++; note.textContent = `Saving paintings… ${done} of ${total}`;
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  note.textContent = failed ? `Saved ${total - failed} of ${total}. Try again on a better connection.` : `All ${total} paintings are saved for offline prayer.`;
+  btn.disabled = false; btn.hidden = !failed;
+}
+
 /* ---------------- boot ---------------- */
 (async function boot() {
   await loadArt();
   setupGestures();
   setupSheetDrag();
   renderHome();
+  showInstall();
   music.load(); // so a tap on Begin can start audio synchronously (iOS)
-  if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
 })();

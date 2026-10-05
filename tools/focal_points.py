@@ -29,9 +29,10 @@ def focal(fs):
     fs = [(float(x), float(y), float(a), s) for x, y, a, s in fs]
     big = max(a for _, _, a, _ in fs)
     keep = [f for f in fs if f[2] >= big * 0.25]  # the main figures, not distant crowds
-    wsum = sum(a * s for _, _, a, s in keep)
-    fx = sum(x * a * s for x, _, a, s in keep) / wsum
-    fy = sum(y * a * s for _, y, a, s in keep) / wsum
+    # higher faces weigh more: in sacred art the principal figure is usually at the top
+    w = [a * s * (1.6 - y) for _, y, a, s in keep]
+    fx = sum(f[0] * wi for f, wi in zip(keep, w)) / sum(w)
+    fy = sum(f[1] * wi for f, wi in zip(keep, w)) / sum(w)
     return (round(float(fx), 3), round(float(fy), 3))
 
 def main():
