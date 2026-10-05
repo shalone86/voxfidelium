@@ -72,3 +72,11 @@ used = {slug(i) + ".jpg" for i in ids}
 for f in os.listdir(os.path.join(ROOT, "img")):
     if f not in used: os.remove(os.path.join(ROOT, "img", f)); print("removed stale", f)
 print({k: len(v) for k, v in pools.items()})
+
+# keep the face focal points in step with the catalogue (needs opencv-python-headless)
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import focal_points
+    focal_points.main()
+except ImportError as e:
+    print("focal points skipped:", e)

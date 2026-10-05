@@ -162,3 +162,18 @@ button reads "Begin the Chaplet".
 | Our Father | St. Michael |
 | Three Hail Marys | angels |
 | The four closing Our Fathers | St. Michael, St. Gabriel, St. Raphael (Tobias and the Angel) and a guardian angel |
+
+---
+
+# Scope decision
+
+The aim is for people to be able to jump straight in and pray. The set of
+devotions is therefore closed:
+- the Rosary, in its Roman or Byzantine form
+- the Divine Mercy Chaplet
+- the Seven Sorrows
+- St. Michael
+- the Five Wounds
+
+No date badges, and no further chaplets. The site is meant to be built once and
+left alone.

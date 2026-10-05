@@ -1,8 +1,8 @@
 # The Illuminated Rosary
 
 A mobile rosary, plus the Divine Mercy Chaplet, the Chaplet of the Seven
-Sorrows and the Chaplet of St. Michael, where every prayer has its own
-public-domain painting. Swipe left to pray onward.
+Sorrows, the Chaplet of St. Michael and the Chaplet of the Five Wounds, where
+every prayer has its own public-domain painting. Swipe left to pray onward.
 
 **Live app:** https://shalone86.github.io/illuminatedrosary/
 
@@ -20,6 +20,11 @@ public-domain painting. Swipe left to pray onward.
   (Bach, Suk, Haydn, Mozart, Schubert…), with a peaceful playlist for the
   Joyful, Luminous and Glorious mysteries and St. Michael, and a more
   contemplative one for the Sorrowful mysteries, Seven Sorrows and Divine Mercy.
+- Prayer form: Roman, or Byzantine (the wording of the Ukrainian Catholic
+  rosary: "Rejoice, Mother of God", the Byzantine Glory Be and Creed, Eastern
+  opening prayers and "It is truly right").
+- "Fill" mode crops each painting around its faces (focal points found with
+  OpenCV's YuNet detector, `tools/focal_points.py`).
 - Tap ⓘ for the artwork's title, artist, date and source.
 
 See [WORKSHOP.md](WORKSHOP.md) for the design concepts that were considered and

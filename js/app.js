@@ -1,15 +1,22 @@
-import { PRAYERS, MYSTERIES, CHAPLETS, NOTES, ORDINALS } from "./prayers.js";
+import { PRAYERS, MYSTERIES, CHAPLETS, NOTES, ORDINALS, BYZANTINE } from "./prayers.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const SET_ORDER = ["joyful", "luminous", "sorrowful", "glorious"];
-const CHAPLET_ORDER = ["divineMercy", "sevenSorrows", "stMichael"];
+const CHAPLET_ORDER = ["divineMercy", "sevenSorrows", "stMichael", "fiveWounds"];
 // Every devotion exposes the same shape: name, groups (decades / sorrows / salutations), kind.
 const DEVOTIONS = {};
 for (const [k, m] of Object.entries(MYSTERIES)) DEVOTIONS[k] = { ...m, kind: "rosary", groups: m.decades, groupWord: { en: "Mystery", la: "Mysterium" } };
 Object.assign(DEVOTIONS, CHAPLETS);
 const isRosary = (k) => DEVOTIONS[k] && DEVOTIONS[k].kind === "rosary";
 // a prayer in the session language, falling back to English
-const P_ = (key, lang) => PRAYERS[key][lang] || PRAYERS[key].en;
+// (the Byzantine form swaps in the Eastern wording of the Hail Mary, Glory Be and Creed)
+const byzantine = () => (session ? session.form : settings.form) === "byzantine";
+const P_ = (key, lang) => {
+  if (byzantine() && BYZANTINE[key]) key = BYZANTINE[key];
+  return PRAYERS[key][lang] || PRAYERS[key].en;
+};
+// a mystery/group name, with the Eastern name where the Byzantine form has one
+const gname = (m, lang) => (byzantine() && m.byz ? m.byz : m.name)[lang];
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /* ---------------- storage ---------------- */
@@ -22,7 +29,7 @@ const store = {
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const settings = Object.assign({
   set: todaysSet(), opening: true, closing: true,
-  kenBurns: !reduceMotion, fit: "fit", lang: "en", text: "full", auto: 0, music: "off",
+  kenBurns: !reduceMotion, fit: "fit", lang: "en", text: "full", auto: 0, music: "off", form: "roman",
 }, store.get("settings", {}));
 const saveSettings = () => store.set("settings", settings);
 if (!DEVOTIONS[settings.set]) settings.set = todaysSet();
@@ -88,7 +95,28 @@ function buildSteps(key, opening, closing) {
     ids.forEach((id, i) => steps.push({ type: "prayer", prayer, art: id, g, bead: i + 1, beads: count }));
   };
 
-  if (dev.kind === "rosary") {
+  if (dev.kind === "rosary" && byzantine()) {
+    if (opening) {
+      P("sign", "trinity", { section: "opening" });
+      P("bzHeavenlyKing", "pentecost", { section: "opening" });
+      P("bzTrisagion", "trinity", { section: "opening" });
+      P("ourFather", "father", { section: "opening" });
+      P("creed", "pantocrator", { section: "opening" });
+      ["bzFather", "bzSon", "bzSpirit"].forEach((pr, i) => P(pr, "madonna", { section: "opening", bead: i + 1, beads: 3 }));
+      P("gloryBe", "trinity", { section: "opening" });
+    }
+    dev.groups.forEach((m, g) => {
+      group(g, m.pool, "hailMary", 10);
+      P("gloryBe", "trinity", { g, bead: 11, beads: 10 });
+      P("fatima", "shepherd", { g, bead: 11, beads: 10 });
+    });
+    if (closing) {
+      P("bzTrulyRight", "coronation", { section: "closing" });
+      P("bzConcluding", "rosary", { section: "closing" });
+      P("sign", "trinity", { section: "closing" });
+    }
+    steps.push({ type: "end", art: deal("rosary") || deal("madonna") });
+  } else if (dev.kind === "rosary") {
     if (opening) {
       P("sign", "trinity", { section: "opening" });
       P("creed", "pantocrator", { section: "opening" });
@@ -130,6 +158,18 @@ function buildSteps(key, opening, closing) {
     if (closing) P("sorrowsClosing", "pieta", { section: "closing" });
     P("sign", "trinity", { section: "closing" });
     steps.push({ type: "end", art: deal("dolorosa") });
+  } else if (dev.kind === "fiveWounds") {
+    P("sign", "trinity", { section: "opening" });
+    P("deusInAdiutorium", "mercy", { section: "opening" });
+    if (opening) P("contrition", "mercy", { section: "opening" });
+    dev.groups.forEach((m, g) => {
+      group(g, m.pool, "gloryBe", 5, { announce: false, big: [m.prayer, m.pool] });
+      P("hailMary", "dolorosa", { g, bead: 6, beads: 5, note: "sorrowfulVirgin" });
+    });
+    P("woundsClosing", "pieta", { section: "closing" });
+    if (closing) P("woundsCollect", "mercy", { section: "closing" });
+    P("sign", "trinity", { section: "closing" });
+    steps.push({ type: "end", art: deal("mercy") });
   } else if (dev.kind === "stMichael") {
     P("sign", "trinity", { section: "opening" });
     P("deusInAdiutorium", "michael", { section: "opening" });
@@ -169,7 +209,7 @@ function renderHome() {
     b.setAttribute("role", "radio");
     b.setAttribute("aria-checked", String(settings.set === k));
     const cover = coverFor(k);
-    if (cover) b.style.backgroundImage = `url("${cover.src}")`;
+    if (cover) { b.style.backgroundImage = `url("${cover.src}")`; b.style.backgroundPosition = focalPos(cover); }
     b.innerHTML = `${k === today ? '<span class="badge">TODAY</span>' : ""}
       <span class="set-name">${m.name.en.replace(" Mysteries", "")}</span>
       <span class="set-days">${m.days.map((d) => DAY_NAMES[d]).join(" · ")}</span>`;
@@ -185,10 +225,8 @@ function renderHome() {
     b.setAttribute("role", "radio");
     b.setAttribute("aria-checked", String(settings.set === k));
     const cover = coverFor(k);
-    if (cover) b.style.backgroundImage = `url("${cover.src}")`;
-    const badge = chapletBadge(k);
-    b.innerHTML = `${badge ? `<span class="badge">${badge}</span>` : ""}
-      <span class="ribbon-name">${c.name.en}</span><span class="ribbon-sub">${c.sub}</span>`;
+    if (cover) { b.style.backgroundImage = `url("${cover.src}")`; b.style.backgroundPosition = focalPos(cover); }
+    b.innerHTML = `<span class="ribbon-name">${c.name.en}</span><span class="ribbon-sub">${c.sub}</span>`;
     b.onclick = () => { settings.set = k; saveSettings(); renderHome(); };
     chaplets.appendChild(b);
   }
@@ -221,6 +259,8 @@ function renderHome() {
   } else r.hidden = true;
 }
 
+const focalPos = (a) => `${(a.fx ?? 0.5) * 100}% ${(a.fy ?? 0.42) * 100}%`;
+
 function coverFor(setKey) {
   const dev = DEVOTIONS[setKey];
   const pool = ART.pools[dev.cover || dev.groups[0].pool];
@@ -228,30 +268,12 @@ function coverFor(setKey) {
   return c || null;
 }
 
-// Western Easter (anonymous Gregorian algorithm), for Divine Mercy Sunday
-function easter(y) {
-  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
-  const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
-  return new Date(y, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1);
-}
-
-function chapletBadge(k, now = new Date()) {
-  const md = `${now.getMonth() + 1}-${now.getDate()}`;
-  if (k === "divineMercy") {
-    const dms = easter(now.getFullYear()); dms.setDate(dms.getDate() + 7);
-    if (now.toDateString() === dms.toDateString() || md === "10-5") return "FEAST";
-    if (now.getHours() === 15) return "3 PM";
-  }
-  if (k === "sevenSorrows" && md === "9-15") return "FEAST";
-  if (k === "stMichael" && md === "9-29") return "FEAST";
-  return "";
-}
-
 const OPTIONS = [
   { key: "kenBurns", label: "Ken Burns motion", hint: "Slow pan and zoom across each painting", type: "switch" },
   { key: "fit", label: "Painting", hint: "Whole painting, or fill the screen", type: "seg", options: [["fit", "Whole"], ["fill", "Fill"]] },
   { key: "text", label: "Prayer text", hint: "Minimal hides the words; tap the image to reveal", type: "seg", options: [["full", "Full"], ["minimal", "Minimal"]] },
   { key: "lang", label: "Language", type: "seg", options: [["en", "English"], ["la", "Latin"]] },
+  { key: "form", label: "Prayer form", hint: "Byzantine: the wording of the Ukrainian Catholic rosary", type: "seg", options: [["roman", "Roman"], ["byzantine", "Byzantine"]] },
   { key: "music", label: "Music", hint: "Quiet classical recordings from Musopen", type: "seg", options: [["off", "Off"], ["on", "On"]] },
   { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [5, "5s"], [10, "10s"], [15, "15s"], [20, "20s"]] },
 ];
@@ -292,6 +314,7 @@ function applySettings() {
   pray.classList.toggle("minimal", settings.text === "minimal");
   if (session) {
     session.lang = settings.lang;
+    session.form = settings.form;
     renderTrack();
     if (settings.music === "on") music.start(session.set); else music.stop();
   }
@@ -314,10 +337,10 @@ function sectionLine(dev, section, lang) {
 
 function describeStep(step, key, lang = "en") {
   const dev = DEVOTIONS[key];
-  if (step.type === "announce") return `${groupLine(dev, step.g, lang)}: ${dev.groups[step.g].name[lang]}`;
+  if (step.type === "announce") return `${groupLine(dev, step.g, lang)}: ${gname(dev.groups[step.g], lang)}`;
   if (step.type === "end") return lang === "la" ? "Finis" : "The end";
   const p = P_(step.prayer, lang).title;
-  if (step.g != null) return `${dev.groups[step.g].name[lang]} · ${p}${step.bead > 0 && !step.big && step.bead <= step.beads ? ` ${step.bead}` : ""}`;
+  if (step.g != null) return `${gname(dev.groups[step.g], lang)} · ${p}${step.bead > 0 && !step.big && step.bead <= step.beads ? ` ${step.bead}` : ""}`;
   return `${sectionLine(dev, step.section, lang)} · ${p}`;
 }
 
@@ -329,7 +352,7 @@ function slideHTML(step) {
     const ordLine = lang === "la" || dev.kind !== "rosary" ? groupLine(dev, step.g, lang) : `The ${groupLine(dev, step.g, "en")}`;
     return `<div class="scrim"></div><div class="words">
       <div class="ordinal">${ordLine}</div>
-      <div class="mname">${m.name[lang]}</div>
+      <div class="mname">${gname(m, lang)}</div>
       ${m.verse ? `<div class="verse">${m.verse}</div><div class="ref">${m.ref}</div>` : ""}
       ${m.fruit ? `<div class="fruit">Fruit · ${m.fruit}</div>` : ""}${creditLine(step)}</div>`;
   }
@@ -344,9 +367,9 @@ function slideHTML(step) {
   }
   const p = P_(step.prayer, lang);
   // the top bar already names the section, so the label carries the mystery, scene or intention
-  let label = step.note ? NOTES[step.note][lang] : step.g != null && !step.plain ? dev.groups[step.g].name[lang] : "";
+  let label = step.note ? NOTES[step.note][lang] : step.g != null && !step.plain ? gname(dev.groups[step.g], lang) : "";
   let title = p.title;
-  const counted = (step.prayer === "hailMary" || step.prayer === "sorrowfulPassion") && step.bead > 0 && step.bead <= step.beads;
+  const counted = ["hailMary", "sorrowfulPassion", "gloryBe"].includes(step.prayer) && step.bead > 0 && step.bead <= step.beads;
   if (counted || step.n) title += ` <span style="opacity:.6;font-weight:400">${toRoman(step.n || step.bead)}</span>`;
   const body = p.text;
   const long = body.length > 330 ? " long" : "";
@@ -382,6 +405,9 @@ function makeSlide(idx) {
     el.appendChild(bd);
     const art = document.createElement("div");
     art.className = "art";
+    // focal point (faces): Fill mode crops around it and Ken Burns zooms toward it
+    art.style.setProperty("--fx", `${(a.fx ?? 0.5) * 100}%`);
+    art.style.setProperty("--fy", `${(a.fy ?? 0.42) * 100}%`);
     initKenBurns(art);
     const img = new Image();
     img.alt = `${a.title}${a.artist ? ", " + a.artist : ""}`;
@@ -406,7 +432,7 @@ function initKenBurns(art) {
   const zoomIn = Math.random() < 0.6;
   const lo = fill ? 1.04 : 1.0, hi = fill ? 1.22 : 1.14;
   const [s0, s1] = zoomIn ? [lo, hi] : [hi, lo];
-  const pan = fill ? 3.5 : 2.5;
+  const pan = fill ? 2 : 2.5;
   art.style.setProperty("--s0", s0);
   art.style.setProperty("--s1", s1);
   art.style.setProperty("--x0", r(-pan, pan) + "%");
@@ -467,7 +493,7 @@ function updateChrome() {
     const pos = step.type === "announce" ? -1 : step.bead;
     mk("big" + (pos === 0 ? " now" : pos > 0 ? " done" : ""));
     for (let i = 1; i <= n; i++) mk(i === pos ? "now" : i < pos ? "done" : "");
-    if (dev.kind === "rosary") mk("sep" + (pos === n + 1 ? " now" : ""));
+    if (dev.kind === "rosary" || dev.kind === "fiveWounds") mk("sep" + (pos === n + 1 ? " now" : ""));
   } else if (step.beads) {
     for (let i = 1; i <= step.beads; i++) mk(i === step.bead ? "now" : i < step.bead ? "done" : "");
   }
@@ -611,7 +637,7 @@ function scheduleAuto() {
 /* ---------------- music ---------------- */
 // One continuous playlist per session, matched to the devotion's mood. Volume fades go
 // through Web Audio because iOS ignores HTMLMediaElement.volume.
-const SORROWFUL = ["sorrowful", "sevenSorrows", "divineMercy"];
+const SORROWFUL = ["sorrowful", "sevenSorrows", "divineMercy", "fiveWounds"];
 const music = {
   tracks: null, el: null, ctx: null, gain: null, list: [], i: 0, mood: null, wanted: false,
   async load() {
@@ -772,7 +798,7 @@ function openMenu() {
   const firstIdx = (pred) => session.steps.findIndex(pred);
   const section = (name) => { const i = firstIdx((s) => s.section === name); if (i >= 0) jumps.push([i, sectionLine(set, name, lang), ""]); };
   section("opening");
-  set.groups.forEach((m, g) => jumps.push([firstIdx((s) => s.g === g), m.name[lang], ord(g, lang)]));
+  set.groups.forEach((m, g) => jumps.push([firstIdx((s) => s.g === g), gname(m, lang), ord(g, lang)]));
   section("honors");
   section("closing");
   const curSection = jumps.filter(([i]) => i <= session.index).pop();
@@ -805,7 +831,8 @@ function openCredits() {
 /* ---------------- navigation between screens ---------------- */
 function startRosary(fresh = true, push = true) {
   if (fresh) {
-    session = { v: 2, set: settings.set, steps: buildSteps(settings.set, settings.opening, settings.closing), index: 0, lang: settings.lang, started: Date.now() };
+    session = { v: 2, set: settings.set, form: settings.form, steps: null, index: 0, lang: settings.lang, started: Date.now() };
+    session.steps = buildSteps(settings.set, settings.opening, settings.closing);
   }
   session.lang = settings.lang;
   $("#home").hidden = true;

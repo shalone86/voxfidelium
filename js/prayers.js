@@ -219,3 +219,61 @@ export const CHAPLETS = {
     groups: CHOIRS.map(([en, la]) => ({ pool: "angels", name: { en: `The ${en}`, la } })),
   },
 };
+
+/* ---------------- Chaplet of the Five Wounds (Passionist; Raccolta) ---------------- */
+const WOUND = (wound, grace) => `My dearest Lord Jesus Crucified, bending low before Thee, with Mary most holy and with all the Angels and Saints in paradise, I adore the sacred Wound in Thy ${wound}, ${grace}`;
+Object.assign(PRAYERS, {
+  woundLeftFoot: { en: { title: "The Wound of the Left Foot", text: WOUND("left Foot", "and implore Thee to deliver the holy souls in purgatory, and especially those who in life were most devout towards Thy sacred Wounds.") } },
+  woundRightFoot: { en: { title: "The Wound of the Right Foot", text: WOUND("right Foot", "and I beg of Thee this grace, that countless flowers of holiness may blossom among the clergy and all those who are consecrated to Thee.") } },
+  woundLeftHand: { en: { title: "The Wound of the Left Hand", text: WOUND("left Hand", "and I beseech Thee for grace for all poor sinners, for the dying, and especially for those who will not be reconciled to Thee.") } },
+  woundRightHand: { en: { title: "The Wound of the Right Hand", text: WOUND("right Hand", "I give Thee thanks for the infinite love wherewith Thou didst will to suffer so many bitter pains because of my sins, which I detest with all my heart; I implore Thee to grant graciously to Thy holy Church victory over all her enemies, and to all her children grace to walk in holiness in the way of Thy commandments.") } },
+  woundSide: { en: { title: "The Wound of the Sacred Side", text: WOUND("most holy Side", "and I pray Thee to bless and graciously hear all those who have recommended themselves to my prayers.") } },
+  woundsClosing: { en: { title: "My Crucified Jesus", text: "V. O Virgin most sorrowful,\nR. Pray for us. (three times)\n\nMy Crucified Jesus, confirm these prayers by the merits of Thy Passion; give me holiness of life, the grace to receive Thy holy Sacraments at the hour of my death, and glory everlasting. Amen." } },
+  woundsCollect: { en: { title: "Let Us Pray", text: "O God, who by the Passion of Thine only-begotten Son, and by the shedding of His Precious Blood through His five Wounds, didst restore human nature when it was lost by sin: grant us, we beseech Thee, that we who venerate on earth the Wounds suffered by Him may be found worthy to obtain in Heaven the fruits of that same most Precious Blood. Through the same Christ our Lord. Amen." } },
+});
+NOTES.sorrowfulVirgin = { en: "in honor of the Sorrowful Virgin", la: "in honorem Virginis Dolorosæ" };
+
+CHAPLETS.fiveWounds = {
+  kind: "fiveWounds",
+  name: { en: "Chaplet of the Five Wounds", la: "Coronula Quinque Vulnerum" },
+  sub: "Five Glory Bes for each of Christ's holy Wounds",
+  begin: "Begin the Five Wounds",
+  groupWord: { en: "Wound", la: "Vulnus" },
+  cover: "mercy",
+  options: {
+    opening: ["Act of Contrition", "Prayed after “O God, come to my assistance”"],
+    closing: ["Closing prayer", "“O God, who by the Passion of Thine only-begotten Son…”"],
+  },
+  groups: [
+    { prayer: "woundLeftFoot", pool: "crucifixion", name: { en: "The Left Foot", la: "Pes Sinister" } },
+    { prayer: "woundRightFoot", pool: "crucifixion", name: { en: "The Right Foot", la: "Pes Dexter" } },
+    { prayer: "woundLeftHand", pool: ["deposition", "pieta"], name: { en: "The Left Hand", la: "Manus Sinistra" } },
+    { prayer: "woundRightHand", pool: ["deposition", "pieta"], name: { en: "The Right Hand", la: "Manus Dextera" } },
+    { prayer: "woundSide", pool: ["mercy", "pieta"], name: { en: "The Sacred Side", la: "Latus Sacratissimum" } },
+  ],
+};
+
+/* ---------------- Byzantine form (Ukrainian Greek Catholic usage) ----------------
+   Texts follow "Rosary Prayer in Honour of the Mother of God", Ukrainian Catholic
+   Eparchy of Edmonton (2016). Same beads; Byzantine prayers. */
+const BYZ_REJOICE = "Rejoice, Mother of God, Virgin Mary, full of grace, the Lord is with you. Blessed are you among women, and blessed is the fruit of your womb, for you have borne Christ, the Saviour and Redeemer of our souls.";
+const BYZ_GLORY = "Glory be to the Father and to the Son and to the Holy Spirit, now and for ever and ever. Amen.";
+Object.assign(PRAYERS, {
+  bzRejoice: { en: { title: "Rejoice, Mother of God", text: BYZ_REJOICE } },
+  bzGlory: { en: { title: "Glory Be", text: BYZ_GLORY } },
+  bzSign: { en: { title: "The Sign of the Cross", text: "In the name of the Father, and of the Son, and of the Holy Spirit. Amen." } },
+  bzHeavenlyKing: { en: { title: "Heavenly King", text: "Glory be to You, our God, glory be to You!\n\nHeavenly King, Advocate, Spirit of Truth, who are everywhere present and fill all things, Treasury of Blessings, Bestower of Life, come and dwell within us; cleanse us of all that defiles us, and, O Good One, save our souls." } },
+  bzTrisagion: { en: { title: "Holy God", text: "Holy God, Holy and Mighty, Holy and Immortal, have mercy on us. (three times)\n\n" + BYZ_GLORY + "\n\nMost Holy Trinity, have mercy on us. Lord, cleanse us of our sins. Master, forgive our transgressions. Holy One, visit and heal our infirmities for Your name's sake.\n\nLord, have mercy. (three times)" } },
+  bzCreed: { en: { title: "The Symbol of Faith", text: "I believe in one God, the Father, the Almighty, Maker of heaven and earth, of all that is seen and unseen. I believe in one Lord, Jesus Christ, the only Son of God, eternally begotten of the Father. Light from Light, true God from true God, begotten, not made, one in being with the Father. Through Him all things were made. For us men and for our salvation He came down from heaven: by the power of the Holy Spirit He was born of the Virgin Mary, and became man. For our sake He was crucified under Pontius Pilate; He suffered, died, and was buried. On the third day He rose again in fulfillment of the Scriptures; He ascended into heaven and is seated at the right hand of the Father. He will come again in glory to judge the living and the dead, and His kingdom will have no end. I believe in the Holy Spirit, the Lord, the Giver of life, who proceeds from the Father. With the Father and the Son He is worshipped and glorified. He has spoken through the prophets. I believe in one, holy, catholic and apostolic Church. I acknowledge one baptism for the forgiveness of sins. I look for the resurrection of the dead, and the life of the world to come. Amen." } },
+  bzFather: { en: { title: "Rejoice, Mother of God", text: "Glory be to the Father who created us, now and for ever and ever. Amen.\n\n" + BYZ_REJOICE } },
+  bzSon: { en: { title: "Rejoice, Mother of God", text: "Glory be to the Son who redeemed us, now and for ever and ever. Amen.\n\n" + BYZ_REJOICE } },
+  bzSpirit: { en: { title: "Rejoice, Mother of God", text: "Glory be to the Holy Spirit who sanctifies us, and confirms us in the holy catholic and orthodox faith, now and for ever and ever. Amen.\n\n" + BYZ_REJOICE } },
+  bzTrulyRight: { en: { title: "It Is Truly Right", text: "It is truly right to bless you, O God-bearing One, as the ever-blessed and immaculate Mother of our God. More honourable than the cherubim and by far more glorious than the seraphim; ever a virgin, you gave birth to God the Word, O true Mother of God, we magnify you.\n\nWe flee to the shelter of your mercy, O Virgin Mother of God. Do not reject our prayers of anguish, but free us from tribulations, O only pure and blessed one." } },
+  bzConcluding: { en: { title: "Concluding Prayers", text: "Most glorious, ever-virgin, Mother of God, receive our prayers and bring them to your Son and our God, that through you, He may save our souls.\n\nThe Father is our hope, the Son our refuge, the Holy Spirit our protection: O Holy Trinity, glory be to You!\n\n" + BYZ_GLORY + "\n\nLord, have mercy. (three times)\n\nThrough the prayers of the Mother of God and all the Saints, Lord Jesus Christ, our God, have mercy on us. Amen." } },
+});
+// In the Byzantine form these prayers are said in their Eastern wording wherever they occur
+export const BYZANTINE = { hailMary: "bzRejoice", gloryBe: "bzGlory", creed: "bzCreed" };
+// Eastern names for two Glorious mysteries and the first Luminous mystery
+MYSTERIES.glorious.decades[3].byz = { en: "The Dormition of the Mother of God", la: "Dormitio Deiparæ" };
+MYSTERIES.glorious.decades[4].byz = { en: "The Glorification of Mary and Her Holy Protection", la: "Glorificatio et Protectio Deiparæ" };
+MYSTERIES.luminous.decades[0].byz = { en: "The Theophany", la: "Theophania" };
