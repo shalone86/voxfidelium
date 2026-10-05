@@ -1,7 +1,8 @@
 # The Illuminated Rosary
 
-A mobile rosary where every prayer has its own public-domain painting.
-Swipe left to pray onward.
+A mobile rosary, plus the Divine Mercy Chaplet, the Chaplet of the Seven
+Sorrows and the Chaplet of St. Michael, where every prayer has its own
+public-domain painting. Swipe left to pray onward.
 
 **Live app:** https://shalone86.github.io/voxfidelium/
 
@@ -24,7 +25,7 @@ why this one was chosen.
 
 ```
 index.html, css/, js/          the app (vanilla JS, no build step)
-js/prayers.js                  prayer texts (EN/LA), mysteries, scripture
+js/prayers.js                  prayer texts (EN/LA), mysteries, chaplets, scripture
 data/art.json                  generated image catalogue (pools → artworks)
 img/                           resized artwork (max 1400px)
 sw.js, manifest.webmanifest    offline support and install

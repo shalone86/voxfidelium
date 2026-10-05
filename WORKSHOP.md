@@ -86,3 +86,79 @@ Images are re-hosted from public-domain or CC0 collections: the Free Catholic
 Gallery (sdcason.com), the Cleveland Museum of Art Open Access collection (CC0),
 the Metropolitan Museum of Art Open Access collection, and others. Every image
 carries its credit and a link back to its source.
+
+---
+
+# Workshop 2: adding chaplets without demoting the rosary
+
+The goal is to add the Divine Mercy Chaplet, the Seven Sorrows and the
+Chaplet of St. Michael while keeping the rosary home screen as it is (the
+2×2 mystery cards, the toggles and the big Begin button).
+
+## Options considered
+
+### A. Tabs at the top ("Rosary | Chaplets")
+- **Pros:** a clean split, and each tab gets its own layout.
+- **Cons:** it puts new chrome above the hero and makes the rosary just
+  one of two equals. The chaplets are also hidden until you think to tap the
+  tab.
+
+### B. A row of chaplet "ribbons" under the mysteries
+The 2×2 rosary grid stays first and keeps its size. Below it, a "Chaplets"
+heading introduces three wide, short cards, each with a strip of painting, a
+name and one line of description. Picking one moves the gold ring to it. The
+Prayers section then switches to that chaplet's optional parts, and the
+button reads "Begin the Chaplet".
+- **Pros:** everything stays on one screen, the chaplets are easy to find,
+  and the rosary is still clearly the main event by size and position.
+- **Cons:** the home screen gets a bit longer.
+
+### C. A "More devotions" link at the bottom that opens a sheet
+- **Pros:** leaves the home screen untouched.
+- **Cons:** the chaplets are buried, and most people would never find them.
+
+### D. A swipeable carousel of devotions at the top
+- **Pros:** playful.
+- **Cons:** it breaks up the 2×2 grid people already like, and it hides
+  three of the four choices at any moment.
+
+## Pick: B, chaplet ribbons
+
+- The ribbons are about a third the height of a mystery card, so the rosary
+  still dominates.
+- Context badges appear on the cards:
+  - **Divine Mercy:** "3 PM" during the Hour of Mercy, and "Feast" on Divine
+    Mercy Sunday and on St. Faustina's day (Oct 5).
+  - **Seven Sorrows:** "Feast" on Sept 15.
+  - **St. Michael:** "Feast" on Michaelmas (Sept 29).
+- Each chaplet brings its own optional prayers to the toggles. For example,
+  the Divine Mercy opening prayers are "You expired, Jesus…" and "O Blood and
+  Water…".
+
+## Image mapping
+
+**Divine Mercy Chaplet**
+
+| Prayer | Image |
+| --- | --- |
+| Opening prayers | Divine Mercy, Sacred Heart and Man of Sorrows images |
+| Eternal Father | God the Father |
+| "For the sake of His sorrowful Passion" ×10 | the Passion, one scene per decade: Agony, Scourging, Crowning with Thorns, Carrying of the Cross, Crucifixion |
+| Holy God ×3 | the Trinity |
+
+**Seven Sorrows**
+
+| Prayer | Image |
+| --- | --- |
+| Each sorrow (title card + 7 Hail Marys) | paintings of that sorrow: Simeon's prophecy, Flight into Egypt, Loss in the Temple, Mary meets Jesus on the way, Crucifixion, Descent from the Cross / Pietà, Entombment |
+| Our Father | God the Father |
+| Three Hail Marys for Our Lady's tears | Mater Dolorosa |
+
+**Chaplet of St. Michael**
+
+| Prayer | Image |
+| --- | --- |
+| Each of the nine salutations | choirs of angels |
+| Our Father | St. Michael |
+| Three Hail Marys | angels |
+| The four closing Our Fathers | St. Michael, St. Gabriel, St. Raphael (Tobias and the Angel) and a guardian angel |

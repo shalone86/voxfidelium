@@ -18,7 +18,7 @@
 </head>
 <body>
   <!-- Start screen -->
-  <main id="home" class="screen" aria-label="Choose your rosary">
+  <main id="home" class="screen" aria-label="Choose a devotion">
     <div class="home-bg" aria-hidden="true"></div>
     <header class="home-head">
       <p class="eyebrow">Pray with sacred art</p>
@@ -39,9 +39,15 @@
     </section>
 
     <section class="block">
+      <h2 class="rubric">Chaplets</h2>
+      <div id="chaplets" class="ribbons" role="radiogroup" aria-label="Chaplets"></div>
+    </section>
+
+    <section class="block">
       <h2 class="rubric">Prayers</h2>
       <label class="row"><span>Opening prayers<small>Sign of the Cross, Creed, Our Father, three Hail Marys, Glory Be</small></span><input type="checkbox" data-setting="opening" class="switch"></label>
       <label class="row"><span>Closing prayers<small>Hail, Holy Queen and the Rosary prayer</small></span><input type="checkbox" data-setting="closing" class="switch"></label>
+      <p id="prayersNote" class="note" hidden></p>
     </section>
 
     <section class="block">

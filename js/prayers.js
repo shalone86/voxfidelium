@@ -87,3 +87,135 @@ export const MYSTERIES = {
     ],
   },
 };
+
+/* ---------------- chaplets ---------------- */
+// Prayers missing a Latin form fall back to English.
+Object.assign(PRAYERS, {
+  // Divine Mercy
+  dmOpening: {
+    en: { title: "You Expired, Jesus", text: "You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us." },
+  },
+  bloodWater: {
+    en: { title: "O Blood and Water", text: "O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of mercy for us, I trust in You!" },
+    la: { title: "O Sanguis et Aqua", text: "O Sanguis et Aqua, quæ de Corde Iesu ut fons misericórdiæ pro nobis emanásti, confído in te!" },
+  },
+  eternalFather: {
+    en: { title: "Eternal Father", text: "Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your dearly beloved Son, Our Lord Jesus Christ, in atonement for our sins and those of the whole world." },
+    la: { title: "Pater Æterne", text: "Pater ætérne, óffero tibi Corpus et Sánguinem, Animam et Divinitátem dilectíssimi Fílii tui, Dómini nostri Iesu Christi, in propitiatiónem pro peccátis nostris et totíus mundi." },
+  },
+  sorrowfulPassion: {
+    en: { title: "For the Sake of His Sorrowful Passion", text: "For the sake of His sorrowful Passion, have mercy on us and on the whole world." },
+    la: { title: "Pro Dolorosa Eius Passione", text: "Pro dolorósa eius passióne, miserére nobis et totíus mundi." },
+  },
+  holyGod: {
+    en: { title: "Holy God", text: "Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world." },
+    la: { title: "Sanctus Deus", text: "Sanctus Deus, Sanctus Fortis, Sanctus Immortális, miserére nobis et totíus mundi." },
+  },
+  dmClosing: {
+    en: { title: "Closing Prayer", text: "Eternal God, in whom mercy is endless and the treasury of compassion inexhaustible, look kindly upon us and increase Your mercy in us, that in difficult moments we might not despair nor become despondent, but with great confidence submit ourselves to Your holy will, which is Love and Mercy itself.\n\nJesus, I trust in You." },
+  },
+  // Seven Sorrows
+  deusInAdiutorium: {
+    en: { title: "O God, Come to My Assistance", text: "V. O God, come to my assistance.\nR. O Lord, make haste to help me.\n\nGlory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen." },
+    la: { title: "Deus, in Adiutorium", text: "V. Deus, in adiutórium meum inténde.\nR. Dómine, ad adiuvándum me festína.\n\nGlória Patri, et Fílio, et Spirítui Sancto. Sicut erat in princípio, et nunc, et semper, et in sǽcula sæculórum. Amen." },
+  },
+  contrition: {
+    en: { title: "Act of Contrition", text: "O my God, I am heartily sorry for having offended Thee, and I detest all my sins because of Thy just punishments, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to sin no more and to avoid the near occasion of sin. Amen." },
+    la: { title: "Actus Contritionis", text: "Deus meus, ex toto corde pǽnitet me ómnium meórum peccatórum, éaque detéstor, quia peccándo, non solum pœnas a te iuste statútas proméritus sum, sed præsértim quia offéndi te, summum bonum, ac dignum qui super ómnia diligáris. Ideo fírmiter propóno, adiuvánte grátia tua, de cétero me non peccatúrum peccandíque occasiónes próximas fugitúrum. Amen." },
+  },
+  sorrowsClosing: {
+    en: { title: "Closing Prayer", text: "V. Pray for us, O most sorrowful Virgin.\nR. That we may be made worthy of the promises of Christ.\n\nLord Jesus, we now implore, both for the present and for the hour of our death, the intercession of the most Blessed Virgin Mary, Thy Mother, whose holy soul was pierced at the time of Thy Passion by a sword of grief. Grant us this favor, O Savior of the world, who livest and reignest with the Father and the Holy Spirit, world without end. Amen." },
+  },
+  // St. Michael
+  michaelClosing: {
+    en: { title: "O Glorious Prince", text: "O glorious prince St. Michael, chief and commander of the heavenly hosts, guardian of souls, vanquisher of rebel spirits, servant in the house of the Divine King and our admirable conductor, you who shine with excellence and superhuman virtue: deliver us from all evil, who turn to you with confidence, and enable us by your gracious protection to serve God more and more faithfully every day." },
+  },
+  michaelPrayer: {
+    en: { title: "Let Us Pray", text: "V. Pray for us, O glorious St. Michael, Prince of the Church of Jesus Christ.\nR. That we may be made worthy of His promises.\n\nAlmighty and Everlasting God, who by a prodigy of goodness and a merciful desire for the salvation of all men, has appointed the most glorious Archangel St. Michael Prince of Your Church: make us worthy, we ask You, to be delivered from all our enemies, that none of them may harass us at the hour of death, but that we may be conducted by him into Your presence. This we ask through the merits of Jesus Christ Our Lord. Amen." },
+  },
+});
+
+const CHOIRS = [
+  ["Seraphim", "Seraphim", "may the Lord make us worthy to burn with the fire of perfect charity"],
+  ["Cherubim", "Cherubim", "may the Lord grant us the grace to leave the ways of sin and run in the paths of Christian perfection"],
+  ["Thrones", "Throni", "may the Lord infuse into our hearts a true and sincere spirit of humility"],
+  ["Dominions", "Dominationes", "may the Lord give us grace to govern our senses and overcome any unruly passions"],
+  ["Virtues", "Virtutes", "may the Lord preserve us from evil and falling into temptation"],
+  ["Powers", "Potestates", "may the Lord protect our souls against the snares and temptations of the devil"],
+  ["Principalities", "Principatus", "may God fill our souls with a true spirit of obedience"],
+  ["Archangels", "Archangeli", "may the Lord give us perseverance in faith and in all good works, in order that we may attain the glory of Heaven"],
+  ["Angels", "Angeli", "may the Lord grant us to be protected by them in this mortal life and conducted in the life to come to Heaven"],
+];
+CHOIRS.forEach(([en, , grace], i) => {
+  PRAYERS["salutation" + i] = { en: { title: `The ${en}`, text: `By the intercession of St. Michael and the celestial choir of ${en}, ${grace}. Amen.` } };
+});
+
+// Labels shown above a prayer title (keyed by step.note)
+export const NOTES = {
+  faith: { en: "for an increase of Faith", la: "pro augmento fidei" },
+  hope: { en: "for an increase of Hope", la: "pro augmento spei" },
+  charity: { en: "for an increase of Charity", la: "pro augmento caritatis" },
+  tears: { en: "in honor of the tears of Our Sorrowful Mother", la: "in honorem lacrimarum Matris Dolorosæ" },
+  michael: { en: "in honor of St. Michael", la: "in honorem S. Michaëlis" },
+  gabriel: { en: "in honor of St. Gabriel", la: "in honorem S. Gabriëlis" },
+  raphael: { en: "in honor of St. Raphael", la: "in honorem S. Raphaëlis" },
+  guardian: { en: "in honor of our Guardian Angel", la: "in honorem Angeli Custodis" },
+};
+
+const ORD_EN = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth"];
+const ORD_LA = ["Primum", "Secundum", "Tertium", "Quartum", "Quintum", "Sextum", "Septimum", "Octavum", "Nonum"];
+ORDINALS.en = ORD_EN; ORDINALS.la = ORD_LA;
+
+// pool may be an array: images are dealt from the pools combined
+export const CHAPLETS = {
+  divineMercy: {
+    kind: "divineMercy",
+    name: { en: "Divine Mercy Chaplet", la: "Coronula Divinæ Misericordiæ" },
+    sub: "Five decades on rosary beads",
+    begin: "Begin Divine Mercy",
+    groupWord: { en: "Decade", la: "Decas" },
+    cover: "mercy",
+    options: {
+      opening: ["Opening prayers", "“You expired, Jesus…” and “O Blood and Water…” three times"],
+      closing: ["Closing prayer", "“Eternal God, in whom mercy is endless…”"],
+    },
+    groups: [
+      { pool: "agony", name: { en: "The Agony in the Garden", la: "Agonia in Horto" } },
+      { pool: "scourging", name: { en: "The Scourging at the Pillar", la: "Flagellatio" } },
+      { pool: "crowning", name: { en: "The Crowning with Thorns", la: "Coronatio Spinis" } },
+      { pool: "carrying", name: { en: "The Carrying of the Cross", la: "Baiulatio Crucis" } },
+      { pool: "crucifixion", name: { en: "The Crucifixion", la: "Crucifixio" } },
+    ],
+  },
+  sevenSorrows: {
+    kind: "sevenSorrows",
+    name: { en: "Chaplet of the Seven Sorrows", la: "Coronula Septem Dolorum" },
+    sub: "Seven sorrows of Our Lady, seven Hail Marys each",
+    begin: "Begin the Seven Sorrows",
+    groupWord: { en: "Sorrow", la: "Dolor" },
+    cover: "pieta",
+    options: {
+      opening: ["Act of Contrition", "Prayed after “O God, come to my assistance”"],
+      closing: ["Closing prayer", "“Pray for us, O most sorrowful Virgin…”"],
+    },
+    groups: [
+      { pool: "presentation", name: { en: "The Prophecy of Simeon", la: "Prophetia Simeonis" }, ref: "Luke 2:34–35", verse: "Behold this child is set for the fall, and for the resurrection of many in Israel, and for a sign which shall be contradicted; and thy own soul a sword shall pierce." },
+      { pool: "flight", name: { en: "The Flight into Egypt", la: "Fuga in Ægyptum" }, ref: "Matthew 2:13–14", verse: "Arise, and take the child and his mother, and fly into Egypt. Who arose, and took the child and his mother by night, and retired into Egypt." },
+      { pool: "finding", name: { en: "The Loss of Jesus in the Temple", la: "Amissio Iesu in Templo" }, ref: "Luke 2:48", verse: "Son, why hast thou done so to us? behold thy father and I have sought thee sorrowing." },
+      { pool: "carrying", name: { en: "Mary Meets Jesus on the Way to Calvary", la: "Occursus in Via Crucis" }, ref: "Luke 23:27", verse: "And there followed him a great multitude of people, and of women, who bewailed and lamented him." },
+      { pool: "crucifixion", name: { en: "The Crucifixion", la: "Crucifixio" }, ref: "John 19:26–27", verse: "When Jesus therefore had seen his mother and the disciple standing whom he loved, he saith to his mother: Woman, behold thy son. After that, he saith to the disciple: Behold thy mother." },
+      { pool: ["deposition", "pieta"], name: { en: "Jesus Is Taken Down from the Cross", la: "Depositio de Cruce" }, ref: "Lamentations 1:12", verse: "O all ye that pass by the way, attend, and see if there be any sorrow like to my sorrow." },
+      { pool: "entombment", name: { en: "The Burial of Jesus", la: "Sepultura" }, ref: "John 19:41–42", verse: "Now there was in the place where he was crucified, a garden; and in the garden a new sepulchre, wherein no man yet had been laid. There, therefore, they laid Jesus." },
+    ],
+  },
+  stMichael: {
+    kind: "stMichael",
+    name: { en: "Chaplet of St. Michael", la: "Coronula S. Michaëlis" },
+    sub: "Nine salutations to the choirs of angels",
+    begin: "Begin St. Michael's Chaplet",
+    groupWord: { en: "Salutation", la: "Salutatio" },
+    cover: "michael",
+    options: {},
+    groups: CHOIRS.map(([en, la]) => ({ pool: "angels", name: { en: `The ${en}`, la } })),
+  },
+};

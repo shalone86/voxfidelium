@@ -45,6 +45,18 @@ POOLS = {
  "shepherd": (r"good shepherd|christ (as|the) shepherd|lost sheep", r"", ["good shepherd"]),
  "madonna": (r"madonna and child|virgin and child", r"saints?|donor", ["virgin and child", "madonna and child"]),
  "rosary": (r"rosary|madonna of the rosary|virgin of the rosary", r"", ["madonna of the rosary", "virgin of the rosary"]),
+ # chaplets
+ "mercy": (r"divine mercy|sacred heart|jesus,? i trust|merciful jesus|christ showing (his|the) wounds|wounds of christ|blood of christ|man of sorrows", r"coloring", ["sacred heart", "divine mercy", "man of sorrows"]),
+ "flight": (r"flight into egypt|rest on the flight|flight to egypt|holy family on the (road|way)", r"", ["flight into egypt", "rest on the flight into egypt"]),
+ "deposition": (r"descent from the cross|deposition|taking down|removal from the cross", r"", ["descent from the cross", "deposition"]),
+ "pieta": (r"piet[aà]|lamentation|mourning over|dead christ (with|supported|mourned)", r"", ["pieta", "lamentation over the dead christ"]),
+ "entombment": (r"entombment|burial of christ|christ (carried|borne) to the tomb|bearing of the body|laid in the tomb", r"", ["entombment"]),
+ "dolorosa": (r"mater dolorosa|our lady of sorrows|virgin of sorrows|sorrowing virgin|mourning virgin|seven sorrows|stabat mater|dolorosa|virgin of the seven", r"", ["mater dolorosa", "our lady of sorrows", "mourning virgin"]),
+ "michael": (r"(saint|st\.?|archangel) michael|michael (the )?archangel|michael (slaying|vanquishing|and the dragon|weighing)|fall of the rebel angels", r"mont|church|cathedral|basilica|abbey", ["saint michael", "archangel michael"]),
+ "angels": (r"angels? (playing|making music|musician|adoring|in adoration|with)|choir of angels|heavenly host|music-making angel|angel musician|two angels|adoring angel|glory of angels|angels in heaven|concert of angels", r"annunciat|tobias|guardian|michael", ["angel musicians", "adoring angels", "choir of angels", "angels"]),
+ "gabriel": (r"(archangel|angel|saint|st\.?) gabriel|gabriel", r"", ["archangel gabriel", "angel of the annunciation"]),
+ "raphael": (r"tobias and the angel|tobias|archangel raphael|saint raphael|st\.? raphael the archangel", r"", ["tobias and the angel", "archangel raphael"]),
+ "guardian": (r"guardian angel", r"", ["guardian angel"]),
  "pantocrator": (r"pantocrator|salvator mundi|christ blessing|head of christ|christ the redeemer", r"children", ["salvator mundi", "christ blessing"]),
 }
 
@@ -92,11 +104,13 @@ def met(term):
     return out
 
 if __name__ == "__main__":
+    only = sys.argv[1:]  # optional pool names: gather just these and merge into candidates.json
     sd = sdcason()
     print("sdcason paintings", len(sd))
     cands = {}
     cache = {}
     for pool, (inc, exc, terms) in POOLS.items():
+        if only and pool not in only: continue
         res, seen = [], set()
         pool_src = list(sd)
         for t in terms:
@@ -111,4 +125,7 @@ if __name__ == "__main__":
             seen.add(a["id"]); res.append(a)
         cands[pool] = res
         print(pool, len(res), {s: sum(1 for r in res if r["src"] == s) for s in ("sdcason", "cleveland", "met")})
-    json.dump(cands, open(os.path.join(HERE, "candidates.json"), "w"), indent=1)
+    out = os.path.join(HERE, "candidates.json")
+    if only and os.path.exists(out):
+        merged = json.load(open(out)); merged.update(cands); cands = merged
+    json.dump(cands, open(out, "w"), indent=1)

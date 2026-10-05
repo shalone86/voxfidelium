@@ -1,5 +1,5 @@
 // App shell is network-first (so updates land); artwork is cache-first.
-const SHELL = "shell-v2";
+const SHELL = "shell-v3";
 const ART = "art-v1";
 const SHELL_FILES = ["./", "index.html", "css/app.css", "js/app.js", "js/prayers.js", "data/art.json", "manifest.webmanifest", "icons/icon-192.png"];
 

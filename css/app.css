@@ -55,6 +55,21 @@ h1 { font-weight: 500; font-size: clamp(34px, 9vw, 48px); line-height: 1.05; mar
 
 .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
 .row:last-child { border-bottom: 0; }
+.ribbons { display: grid; gap: 10px; }
+.ribbon {
+  position: relative; height: 84px; border-radius: 12px; overflow: hidden; text-align: left;
+  background: var(--panel) center 30% / cover no-repeat; border: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: center; padding: 0 16px;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.ribbon::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,8,6,.92) 0%, rgba(10,8,6,.7) 55%, rgba(10,8,6,.15)); }
+.ribbon > * { position: relative; }
+.ribbon-name { font-size: 20px; font-weight: 600; line-height: 1.15; }
+.ribbon-sub { font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
+.ribbon .badge { position: absolute; top: 10px; right: 10px; font-family: var(--caps); font-size: 10px; letter-spacing: .16em; background: var(--gold); color: #1b140a; padding: 4px 8px 3px; border-radius: 99px; }
+.ribbon[aria-checked="true"] { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 8px 30px rgba(212,176,106,.25); }
+.ribbon:active { transform: scale(.99); }
+.note { color: var(--ink-soft); font-style: italic; margin: 4px 0 0; }
 .row { flex-wrap: wrap; row-gap: 8px; }
 .row > span { flex: 1; min-width: 130px; }
 @media (max-width: 380px) { .seg button { padding: 6px 9px; font-size: 14px; } }
