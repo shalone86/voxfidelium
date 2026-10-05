@@ -5,6 +5,7 @@
    "src": "music/suk-meditation.mp3",
    "composer": "Josef Suk",
    "title": "Meditation on the Old Czech Hymn “St. Wenceslas”",
+   "kind": "instrumental",
    "moods": [
     "peaceful",
     "sorrowful"
@@ -18,6 +19,7 @@
    "src": "music/bach-goldberg-aria.mp3",
    "composer": "J. S. Bach",
    "title": "Goldberg Variations: Aria",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -30,6 +32,7 @@
    "src": "music/bach-goldberg-13.mp3",
    "composer": "J. S. Bach",
    "title": "Goldberg Variations: Variation 13",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -42,6 +45,7 @@
    "src": "music/bach-goldberg-aria-da-capo.mp3",
    "composer": "J. S. Bach",
    "title": "Goldberg Variations: Aria da capo",
+   "kind": "instrumental",
    "moods": [
     "peaceful",
     "sorrowful"
@@ -55,6 +59,7 @@
    "src": "music/bach-goldberg-15.mp3",
    "composer": "J. S. Bach",
    "title": "Goldberg Variations: Variation 15 (Canon at the Fifth)",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -67,6 +72,7 @@
    "src": "music/bach-goldberg-25.mp3",
    "composer": "J. S. Bach",
    "title": "Goldberg Variations: Variation 25",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -79,6 +85,7 @@
    "src": "music/haydn-lark-adagio.mp3",
    "composer": "Joseph Haydn",
    "title": "String Quartet “The Lark”: Adagio cantabile",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -91,6 +98,7 @@
    "src": "music/mozart-k465-andante.mp3",
    "composer": "W. A. Mozart",
    "title": "String Quartet No. 19, K. 465: Andante cantabile",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -103,6 +111,7 @@
    "src": "music/mozart-k421-andante.mp3",
    "composer": "W. A. Mozart",
    "title": "String Quartet No. 15, K. 421: Andante",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -115,6 +124,7 @@
    "src": "music/beethoven-op18-6-adagio.mp3",
    "composer": "Ludwig van Beethoven",
    "title": "String Quartet Op. 18 No. 6: Adagio ma non troppo",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -127,6 +137,7 @@
    "src": "music/dvorak-american-lento.mp3",
    "composer": "Antonín Dvořák",
    "title": "String Quartet “American”: Lento",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -139,6 +150,7 @@
    "src": "music/dvorak-op51-romanza.mp3",
    "composer": "Antonín Dvořák",
    "title": "String Quartet No. 10: Romanza",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -151,6 +163,7 @@
    "src": "music/schubert-d664-andante.mp3",
    "composer": "Franz Schubert",
    "title": "Piano Sonata in A major, D. 664: Andante",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -163,6 +176,7 @@
    "src": "music/schubert-d568-andante.mp3",
    "composer": "Franz Schubert",
    "title": "Piano Sonata in E-flat major, D. 568: Andante molto",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -175,6 +189,7 @@
    "src": "music/schubert-d784-andante.mp3",
    "composer": "Franz Schubert",
    "title": "Piano Sonata in A minor, D. 784: Andante",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -187,6 +202,7 @@
    "src": "music/schubert-d959-andantino.mp3",
    "composer": "Franz Schubert",
    "title": "Piano Sonata in A major, D. 959: Andantino",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -199,6 +215,7 @@
    "src": "music/schubert-d958-adagio.mp3",
    "composer": "Franz Schubert",
    "title": "Piano Sonata in C minor, D. 958: Adagio",
+   "kind": "instrumental",
    "moods": [
     "sorrowful"
    ],
@@ -211,6 +228,7 @@
    "src": "music/mendelssohn-scottish-adagio.mp3",
    "composer": "Felix Mendelssohn",
    "title": "“Scottish” Symphony: Adagio",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
@@ -223,12 +241,244 @@
    "src": "music/brahms-3-andante.mp3",
    "composer": "Johannes Brahms",
    "title": "Symphony No. 3: Andante",
+   "kind": "instrumental",
    "moods": [
     "peaceful"
    ],
    "duration": 529,
    "source": "Musopen (public domain)",
    "link": "https://archive.org/details/MusopenCollectionAsFlac"
+  },
+  {
+   "id": "sistine-ave-maria-1924",
+   "src": "music/sistine-ave-maria-1924.mp3",
+   "composer": "Tomás Luis de Victoria",
+   "title": "Ave Maria",
+   "performer": "Sistine Chapel Choir, cond. Antonio Rella (1924)",
+   "kind": "sung",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 198,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_ave-maria-hail-mary_sistine-chapel-choir-vitttoria-monsignor-rella-perpetual_gbia0468205a"
+  },
+  {
+   "id": "sistine-o-salutaris-1924",
+   "src": "music/sistine-o-salutaris-1924.mp3",
+   "composer": "Lorenzo Perosi",
+   "title": "O Salutaris Hostia",
+   "performer": "Sistine Chapel Choir, cond. Antonio Rella (1924)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 133,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_o-salutaris-hostia-oh-saving-victim_sistine-chapel-choir-perosi-monsignor-rella-p_gbia0468205b"
+  },
+  {
+   "id": "sistine-laudate-1924",
+   "src": "music/sistine-laudate-1924.mp3",
+   "composer": "Palestrina",
+   "title": "Laudate",
+   "performer": "Sistine Chapel Choir, cond. Antonio Rella (1924)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 210,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_laudate-praise-ye_choir-of-monsignor-rella-sistine-chapel-choir-of-the-vatican-r_gbia0517925a"
+  },
+  {
+   "id": "westminster-kyrie-gloria-1925",
+   "src": "music/westminster-kyrie-gloria-1925.mp3",
+   "composer": "",
+   "title": "Kyrie eleison and Gloria",
+   "performer": "Westminster Cathedral Choir, cond. Fr. Vernon Russell (1925)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 202,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_kyrie-eleison-and-gloria_westminster-cathedral-choir-rev-vernon-russell-b-a_gbia3002378b"
+  },
+  {
+   "id": "westminster-sanctus-agnus-1925",
+   "src": "music/westminster-sanctus-agnus-1925.mp3",
+   "composer": "",
+   "title": "Sanctus, Benedictus and Agnus Dei",
+   "performer": "Westminster Cathedral Choir, cond. Fr. Vernon Russell (1925)",
+   "kind": "sung",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 199,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_sanctus-benedictus-and-agnus-dei_westminster-cathedral-choir-rev-vernon-russell-b_gbia3002377b"
+  },
+  {
+   "id": "westminster-sanctus-1911",
+   "src": "music/westminster-sanctus-1911.mp3",
+   "composer": "",
+   "title": "Sanctus from the Messe Solennelle",
+   "performer": "Westminster Cathedral Choir (1911)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 225,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_sanctus-from-messe-solennelle_westminster-cathedral-choir-anon-anon"
+  },
+  {
+   "id": "english-singers-ave-verum-1923",
+   "src": "music/english-singers-ave-verum-1923.mp3",
+   "composer": "William Byrd",
+   "title": "Ave verum corpus",
+   "performer": "The English Singers (1923)",
+   "kind": "sung",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 178,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_ave-verum-corpus-hail-o-hail-true-body_english-singers-the"
+  },
+  {
+   "id": "sistine-ave-verum-1902",
+   "src": "music/sistine-ave-verum-1902.mp3",
+   "composer": "W. A. Mozart",
+   "title": "Ave verum corpus",
+   "performer": "Sistine Chapel Choir (1902)",
+   "kind": "sung",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 168,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/coro-capella-sistina-mozart-ave-verum-gc-54767-bew"
+  },
+  {
+   "id": "mccormack-kreisler-ave-maria-1914",
+   "src": "music/mccormack-kreisler-ave-maria-1914.mp3",
+   "composer": "Pietro Mascagni",
+   "title": "Ave Maria (on the Intermezzo from Cavalleria rusticana)",
+   "performer": "John McCormack, Fritz Kreisler (1914)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 178,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/da-458-mc-cormack-ave-maria-cav."
+  },
+  {
+   "id": "alda-panis-angelicus-1920",
+   "src": "music/alda-panis-angelicus-1920.mp3",
+   "composer": "César Franck",
+   "title": "Panis Angelicus",
+   "performer": "Frances Alda (1920)",
+   "kind": "sung",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 238,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_panis-angelicus-oh-lord-most-holy_frances-alda-frank-la-forge-gutia-casini-csar_gbia7028237b"
+  },
+  {
+   "id": "gregorian-choir-gloria-1915",
+   "src": "music/gregorian-choir-gloria-1915.mp3",
+   "composer": "attr. W. A. Mozart",
+   "title": "Gloria from the “Twelfth Mass”",
+   "performer": "Gregorian Choir (1915)",
+   "kind": "sung",
+   "moods": [
+    "peaceful"
+   ],
+   "duration": 265,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_gloria-twelfth-mass_gregorian-choir-mozart_gbia0023265a"
+  },
+  {
+   "id": "mccormack-crucifix-1917",
+   "src": "music/mccormack-crucifix-1917.mp3",
+   "composer": "Jean-Baptiste Faure",
+   "title": "Crucifix",
+   "performer": "John McCormack, Reinald Werrenrath (1917)",
+   "kind": "sung",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 187,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_crucifix_john-mccormack-reinald-werrenrath-f-w-rosier-j-faure_gbia0057983a"
+  },
+  {
+   "id": "caruso-crucifix-1911",
+   "src": "music/caruso-crucifix-1911.mp3",
+   "composer": "Jean-Baptiste Faure",
+   "title": "Crucifix",
+   "performer": "Enrico Caruso, Marcel Journet (1911)",
+   "kind": "sung",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 230,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/Caruso-Faure"
+  },
+  {
+   "id": "schumann-heink-before-the-crucifix-1915",
+   "src": "music/schumann-heink-before-the-crucifix-1915.mp3",
+   "composer": "Frank La Forge",
+   "title": "Before the Crucifix",
+   "performer": "Ernestine Schumann-Heink (1915)",
+   "kind": "sung",
+   "moods": [
+    "sorrowful"
+   ],
+   "duration": 196,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_before-the-crucifix_ernestine-schumann-heink-princess-gabrielle-wrede-frank-la-forg_gbia0524598b"
+  },
+  {
+   "id": "heifetz-ave-maria-1917",
+   "src": "music/heifetz-ave-maria-1917.mp3",
+   "composer": "Franz Schubert",
+   "title": "Ave Maria (violin)",
+   "performer": "Jascha Heifetz, André Benoist (1917)",
+   "kind": "instrumental",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 282,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_ave-maria_jascha-heifetz-andr-benoist-schubert-wilhelmj_gbia0234102a"
+  },
+  {
+   "id": "elman-ave-maria-1913",
+   "src": "music/elman-ave-maria-1913.mp3",
+   "composer": "Franz Schubert",
+   "title": "Ave Maria (violin)",
+   "performer": "Mischa Elman (1913)",
+   "kind": "instrumental",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 282,
+   "source": "Internet Archive 78 rpm (public domain recording)",
+   "link": "https://archive.org/details/78_ave-maria_mischa-elman-schubert-wilhelmj_gbia7003785a"
   }
  ]
 }

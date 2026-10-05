@@ -35,6 +35,47 @@ TRACKS = [
  ("brahms-3-andante", "Brahms_SymphonyNo.3inFMajor/JohannesBrahms-SymphonyNo.3InFMajorOp.90-02-Andante", "Johannes Brahms", "Symphony No. 3: Andante", ["peaceful"]),
 ]
 
+# Historic 78 rpm recordings from the Internet Archive. Every one was recorded and
+# published in 1925 or earlier, so it is in the public domain in the US (Music
+# Modernization Act: pre-1926 sound recordings entered the public domain by Jan 1, 2026).
+# item, file, id, composer, title, performer, year, kind, moods
+HISTORIC = [
+ ("78_ave-maria-hail-mary_sistine-chapel-choir-vitttoria-monsignor-rella-perpetual_gbia0468205a", "Ave Maria (Hail, Mary!) - Sistine Chapel Choir.mp3", "sistine-ave-maria-1924", "Tomás Luis de Victoria", "Ave Maria", "Sistine Chapel Choir, cond. Antonio Rella", 1924, "sung", ["peaceful", "sorrowful"]),
+ ("78_o-salutaris-hostia-oh-saving-victim_sistine-chapel-choir-perosi-monsignor-rella-p_gbia0468205b", "O Salutaris Hostia (Oh Saving Victi - Sistine Chapel Choir.mp3", "sistine-o-salutaris-1924", "Lorenzo Perosi", "O Salutaris Hostia", "Sistine Chapel Choir, cond. Antonio Rella", 1924, "sung", ["peaceful"]),
+ ("78_laudate-praise-ye_choir-of-monsignor-rella-sistine-chapel-choir-of-the-vatican-r_gbia0517925a", "Laudate (Praise Ye) - Choir of Monsignor Rella.mp3", "sistine-laudate-1924", "Palestrina", "Laudate", "Sistine Chapel Choir, cond. Antonio Rella", 1924, "sung", ["peaceful"]),
+ ("78_kyrie-eleison-and-gloria_westminster-cathedral-choir-rev-vernon-russell-b-a_gbia3002378b", "KYRIE ELEISON AND GLORIA - WESTMINSTER CATHEDRAL CHOIR.mp3", "westminster-kyrie-gloria-1925", "", "Kyrie eleison and Gloria", "Westminster Cathedral Choir, cond. Fr. Vernon Russell", 1925, "sung", ["peaceful"]),
+ ("78_sanctus-benedictus-and-agnus-dei_westminster-cathedral-choir-rev-vernon-russell-b_gbia3002377b", "SANCTUS BENEDICTUS AND AGNUS - WESTMINSTER CATHEDRAL CHOIR.mp3", "westminster-sanctus-agnus-1925", "", "Sanctus, Benedictus and Agnus Dei", "Westminster Cathedral Choir, cond. Fr. Vernon Russell", 1925, "sung", ["peaceful", "sorrowful"]),
+ ("78_sanctus-from-messe-solennelle_westminster-cathedral-choir-anon-anon", "D_341_Ac_5678f.mp3", "westminster-sanctus-1911", "", "Sanctus from the Messe Solennelle", "Westminster Cathedral Choir", 1911, "sung", ["peaceful"]),
+ ("78_ave-verum-corpus-hail-o-hail-true-body_english-singers-the", "E_305_Bb_3544-I.mp3", "english-singers-ave-verum-1923", "William Byrd", "Ave verum corpus", "The English Singers", 1923, "sung", ["peaceful", "sorrowful"]),
+ ("coro-capella-sistina-mozart-ave-verum-gc-54767-bew", "Coro Capella Sistina Mozart Ave Verum GC-54767 bew.mp3", "sistine-ave-verum-1902", "W. A. Mozart", "Ave verum corpus", "Sistine Chapel Choir", 1902, "sung", ["peaceful", "sorrowful"]),
+ ("da-458-mc-cormack-ave-maria-cav.", "DA 458 McCormack - Ave Maria (Cav.).mp3", "mccormack-kreisler-ave-maria-1914", "Pietro Mascagni", "Ave Maria (on the Intermezzo from Cavalleria rusticana)", "John McCormack, Fritz Kreisler", 1914, "sung", ["peaceful"]),
+ ("78_panis-angelicus-oh-lord-most-holy_frances-alda-frank-la-forge-gutia-casini-csar_gbia7028237b", "Panis Angelicus (Oh Lord Most Holy) - Frances Alda.mp3", "alda-panis-angelicus-1920", "César Franck", "Panis Angelicus", "Frances Alda", 1920, "sung", ["peaceful", "sorrowful"]),
+ ("78_gloria-twelfth-mass_gregorian-choir-mozart_gbia0023265a", "Gloria - Twelfth Mass - Gregorian Choir - Mozart.mp3", "gregorian-choir-gloria-1915", "attr. W. A. Mozart", "Gloria from the “Twelfth Mass”", "Gregorian Choir", 1915, "sung", ["peaceful"]),
+ ("78_crucifix_john-mccormack-reinald-werrenrath-f-w-rosier-j-faure_gbia0057983a", "Crucifix - John McCormack - Reinald Werrenrath.mp3", "mccormack-crucifix-1917", "Jean-Baptiste Faure", "Crucifix", "John McCormack, Reinald Werrenrath", 1917, "sung", ["sorrowful"]),
+ ("Caruso-Faure", "Caruso-Faure-Crucifix.mp3", "caruso-crucifix-1911", "Jean-Baptiste Faure", "Crucifix", "Enrico Caruso, Marcel Journet", 1911, "sung", ["sorrowful"]),
+ ("78_before-the-crucifix_ernestine-schumann-heink-princess-gabrielle-wrede-frank-la-forg_gbia0524598b", "Before the Crucifix - Ernestine Schumann-Heink.mp3", "schumann-heink-before-the-crucifix-1915", "Frank La Forge", "Before the Crucifix", "Ernestine Schumann-Heink", 1915, "sung", ["sorrowful"]),
+ ("78_ave-maria_jascha-heifetz-andr-benoist-schubert-wilhelmj_gbia0234102a", "Ave Maria - Jascha Heifetz - André Benoist.mp3", "heifetz-ave-maria-1917", "Franz Schubert", "Ave Maria (violin)", "Jascha Heifetz, André Benoist", 1917, "instrumental", ["peaceful", "sorrowful"]),
+ ("78_ave-maria_mischa-elman-schubert-wilhelmj_gbia7003785a", "Ave Maria - MISCHA ELMAN - SCHUBERT - WILHELMJ.mp3", "elman-ave-maria-1913", "Franz Schubert", "Ave Maria (violin)", "Mischa Elman", 1913, "instrumental", ["peaceful", "sorrowful"]),
+]
+# light restoration for acoustic-era transfers: trim rumble and hiss, reduce surface noise
+HISTORIC_FILTER = "highpass=f=70,lowpass=f=8000,afftdn=nr=10:nf=-40,"
+
+def build_historic(out):
+    for item, fname, tid, composer, title, performer, year, kind, moods in HISTORIC:
+        if year > 1925: sys.exit(f"{tid}: {year} recording is not yet public domain in the US")
+        dst = os.path.join(ROOT, "music", tid + ".mp3")
+        if not os.path.exists(dst):
+            tmp = dst + ".src"
+            urllib.request.urlretrieve(f"https://archive.org/download/{item}/" + urllib.parse.quote(fname), tmp)
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af",
+                            HISTORIC_FILTER + "loudnorm=I=-22:TP=-2:LRA=11,afade=t=in:d=1.5",
+                            "-ac", "2", "-ar", "44100", "-b:a", "96k", "-map_metadata", "-1", dst], check=True)
+            os.remove(tmp)
+        secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", dst], capture_output=True, text=True).stdout)
+        out.append(dict(id=tid, src=f"music/{tid}.mp3", composer=composer, title=title, performer=f"{performer} ({year})", kind=kind, moods=moods,
+                        duration=round(secs), source="Internet Archive 78 rpm (public domain recording)", link=f"https://archive.org/details/{item}"))
+        print(tid, round(secs), "s", os.path.getsize(dst) // 1024, "KB", flush=True)
+
 def main():
     meta = json.load(urllib.request.urlopen(urllib.request.Request(f"https://archive.org/metadata/{ITEM}", headers=UA), timeout=60))
     files = {f["name"]: f for f in meta["files"]}
@@ -55,9 +96,10 @@ def main():
                             "-ac", "2", "-ar", "44100", "-b:a", "96k", "-map_metadata", "-1", dst], check=True)
             os.remove(tmp)
         secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", dst], capture_output=True, text=True).stdout)
-        out.append(dict(id=tid, src=f"music/{tid}.mp3", composer=composer, title=title, moods=moods, duration=round(secs),
+        out.append(dict(id=tid, src=f"music/{tid}.mp3", composer=composer, title=title, kind="instrumental", moods=moods, duration=round(secs),
                         source="Musopen (public domain)", link=f"https://archive.org/details/{ITEM}"))
         print(tid, round(secs), "s", os.path.getsize(dst) // 1024, "KB", flush=True)
+    build_historic(out)
     json.dump({"tracks": out}, open(os.path.join(ROOT, "data/music.json"), "w"), ensure_ascii=False, indent=1)
 
 if __name__ == "__main__":

@@ -285,7 +285,7 @@ const OPTIONS = [
   { key: "text", label: "Prayer text", hint: "Minimal hides the words; tap the image to reveal", type: "seg", options: [["full", "Full"], ["minimal", "Minimal"]] },
   { key: "lang", label: "Language", type: "seg", options: [["en", "English"], ["la", "Latin"]] },
   { key: "form", label: "Prayer form", hint: "Byzantine: the wording of the Ukrainian Catholic rosary", type: "seg", options: [["roman", "Roman"], ["byzantine", "Byzantine"]] },
-  { key: "music", label: "Music", hint: "Public-domain recordings: classical instrumentals, or chant and choir", type: "seg", options: [["off", "Off"], ["instrumental", "Instrumental"], ["sung", "Sung"]] },
+  { key: "music", label: "Music", hint: "Public-domain recordings: classical instrumentals, or historic choirs and singers (1902–1925)", type: "seg", options: [["off", "Off"], ["instrumental", "Instrumental"], ["sung", "Sung"]] },
   { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [5, "5s"], [10, "10s"], [15, "15s"], [20, "20s"]] },
 ];
 
@@ -706,7 +706,7 @@ const music = {
     if (fadeIn) { if (this.gain) this.gain.gain.value = 0; this.fade(1, 3000); } else this.fade(1, 50);
     this.el.play().catch(() => {});
     if ("mediaSession" in navigator && window.MediaMetadata) {
-      navigator.mediaSession.metadata = new MediaMetadata({ title: t.title, artist: t.composer, album: "The Illuminated Rosary", artwork: [{ src: "icons/icon-512.png", sizes: "512x512", type: "image/png" }] });
+      navigator.mediaSession.metadata = new MediaMetadata({ title: t.title, artist: [t.composer, t.performer].filter(Boolean).join(" · "), album: "The Illuminated Rosary", artwork: [{ src: "icons/icon-512.png", sizes: "512x512", type: "image/png" }] });
     }
   },
   next() { if (!this.list.length) return; this.i++; this.play(false); },
@@ -823,7 +823,7 @@ function openMenu() {
     <p class="meta">${esc(describeStep(session.steps[session.index], session.set, lang))}</p>
     <div class="jump">${jumps.map(([i, l, r]) => `<button data-jump="${i}" class="${curSection && curSection[0] === i ? "current" : ""}"><span>${esc(l)}</span><span>${esc(r)}</span></button>`).join("")}</div>
     <section><h2 class="rubric">Viewing</h2><div data-settings></div></section>
-    ${music.now() ? `<p class="now-playing">♪ ${esc(music.now().composer)} — ${esc(music.now().title)} <button class="linkish" data-action="next-track">Next</button></p>` : ""}
+    ${music.now() ? `<p class="now-playing">♪ ${esc(music.now().title)} — ${esc([music.now().composer, music.now().performer].filter(Boolean).join(" · "))} <button class="linkish" data-action="next-track">Next</button></p>` : ""}
     <button class="danger" data-action="home">End &amp; return home</button>`);
   renderSettings($("#sheetBody [data-settings]"));
 }
@@ -844,7 +844,7 @@ function openCredits() {
       <button class="save-offline" data-action="save-offline">Save all paintings for offline</button></section>
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
-      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Instrumental music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings; chant and choral recordings are public-domain or CC0 recordings from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> and <a href="https://freesound.org" target="_blank" rel="noopener">Freesound</a>. Scripture is from the Douay-Rheims Bible.</p>
+      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Instrumental music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings; the sung music is historic 78 rpm recordings made between 1902 and 1925 (Sistine Chapel Choir, Westminster Cathedral Choir, McCormack, Caruso and others), now in the public domain, from the <a href="https://archive.org/details/78rpm" target="_blank" rel="noopener">Internet Archive</a>. Scripture is from the Douay-Rheims Bible.</p>
       <p><a href="https://github.com/shalone86/illuminatedrosary" target="_blank" rel="noopener">Source on GitHub</a></p>
     </div>
     ${music.tracks && music.tracks.length ? `<section><h2 class="rubric">Music · ${music.tracks.length}</h2><ul class="credits-list">${music.tracks

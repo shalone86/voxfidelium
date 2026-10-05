@@ -16,10 +16,15 @@ every prayer has its own public-domain painting. Swipe left to pray onward.
 - Ken Burns motion (on or off), whole-painting or full-bleed display, English
   or Latin, a minimal text mode, a hands-free timer, keep-screen-awake, resume
   where you left off, and offline install (PWA).
-- Optional background music: quiet public-domain recordings from Musopen
-  (Bach, Suk, Haydn, Mozart, Schubert…), with a peaceful playlist for the
-  Joyful, Luminous and Glorious mysteries and St. Michael, and a more
-  contemplative one for the Sorrowful mysteries, Seven Sorrows and Divine Mercy.
+- Optional background music, Instrumental or Sung:
+  - Instrumental: public-domain Musopen recordings (Bach, Suk, Haydn, Mozart,
+    Schubert…) plus violin *Ave Marias* by Heifetz and Elman.
+  - Sung: historic 78 rpm recordings from 1902–1925, public domain in the US
+    (Sistine Chapel Choir, Westminster Cathedral Choir, the English Singers,
+    McCormack, Caruso, Alda, Schumann-Heink).
+  - The Joyful, Luminous and Glorious mysteries and St. Michael get a peaceful
+    playlist. The Sorrowful mysteries, Seven Sorrows, Divine Mercy and the Five
+    Wounds get a more contemplative one.
 - Prayer form: Roman, or Byzantine (the wording of the Ukrainian Catholic
   rosary: "Rejoice, Mother of God", the Byzantine Glory Be and Creed, Eastern
   opening prayers and "It is truly right").
