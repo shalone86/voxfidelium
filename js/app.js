@@ -34,6 +34,7 @@ const settings = Object.assign({
 const saveSettings = () => store.set("settings", settings);
 if (!DEVOTIONS[settings.set]) settings.set = todaysSet();
 if (![0, 5, 10, 15, 20].includes(settings.auto)) settings.auto = 20; // older builds offered 35s/60s
+if (settings.music === "on") settings.music = "instrumental"; // older builds had a single on/off
 
 function todaysSet() {
   const d = new Date().getDay();
@@ -274,7 +275,7 @@ const OPTIONS = [
   { key: "text", label: "Prayer text", hint: "Minimal hides the words; tap the image to reveal", type: "seg", options: [["full", "Full"], ["minimal", "Minimal"]] },
   { key: "lang", label: "Language", type: "seg", options: [["en", "English"], ["la", "Latin"]] },
   { key: "form", label: "Prayer form", hint: "Byzantine: the wording of the Ukrainian Catholic rosary", type: "seg", options: [["roman", "Roman"], ["byzantine", "Byzantine"]] },
-  { key: "music", label: "Music", hint: "Quiet classical recordings from Musopen", type: "seg", options: [["off", "Off"], ["on", "On"]] },
+  { key: "music", label: "Music", hint: "Public-domain recordings: classical instrumentals, or chant and choir", type: "seg", options: [["off", "Off"], ["instrumental", "Instrumental"], ["sung", "Sung"]] },
   { key: "auto", label: "Hands-free", hint: "Advance automatically after a pause", type: "seg", options: [[0, "Off"], [5, "5s"], [10, "10s"], [15, "15s"], [20, "20s"]] },
 ];
 
@@ -316,7 +317,7 @@ function applySettings() {
     session.lang = settings.lang;
     session.form = settings.form;
     renderTrack();
-    if (settings.music === "on") music.start(session.set); else music.stop();
+    if (settings.music !== "off") music.start(session.set, settings.music); else music.stop();
   }
 }
 
@@ -668,17 +669,18 @@ const music = {
     } else this.el.volume = to;
   },
   // must be called from a user gesture (Begin / Continue / the toggle) the first time
-  start(key) {
+  start(key, kind = "instrumental") {
     this.wanted = true;
     this.ensure();
     if (this.ctx && this.ctx.state === "suspended") this.ctx.resume();
-    if (!this.tracks) { this.load().then(() => this.wanted && this.start(key)); return; }
+    if (!this.tracks) { this.load().then(() => this.wanted && this.start(key, kind)); return; }
     const tracks = this.tracks;
     if (!tracks.length) return;
-    const mood = SORROWFUL.includes(key) ? "sorrowful" : "peaceful";
+    const mood = (SORROWFUL.includes(key) ? "sorrowful" : "peaceful") + "/" + kind;
     if (mood !== this.mood || !this.list.length) {
       this.mood = mood;
-      this.list = shuffle(tracks.filter((t) => t.moods.includes(mood)));
+      const pick = tracks.filter((t) => (t.kind || "instrumental") === kind);
+      this.list = shuffle((pick.length ? pick : tracks).filter((t) => t.moods.includes(mood.split("/")[0])));
       this.i = 0;
       this.play(true);
     } else this.resume();
@@ -819,11 +821,11 @@ function openCredits() {
   openSheet(`<h3>About</h3>
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
-      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings. Scripture is from the Douay-Rheims Bible.</p>
+      <p>All images are public domain or CC0, from the <a href="https://sdcason.com" target="_blank" rel="noopener">Free Catholic Gallery</a>, the <a href="https://www.clevelandart.org/open-access" target="_blank" rel="noopener">Cleveland Museum of Art</a>, <a href="https://www.metmuseum.org/about-the-met/policies-and-documents/open-access" target="_blank" rel="noopener">The Metropolitan Museum of Art</a> and others. Instrumental music is from <a href="https://musopen.org" target="_blank" rel="noopener">Musopen</a>'s public-domain recordings; chant and choral recordings are public-domain or CC0 recordings from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> and <a href="https://freesound.org" target="_blank" rel="noopener">Freesound</a>. Scripture is from the Douay-Rheims Bible.</p>
       <p><a href="https://github.com/shalone86/illuminatedrosary" target="_blank" rel="noopener">Source on GitHub</a></p>
     </div>
-    ${music.tracks && music.tracks.length ? `<section><h2 class="rubric">Music · Musopen · ${music.tracks.length}</h2><ul class="credits-list">${music.tracks
-      .map((t) => `<li><a href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.title)}</a> <span class="who">— ${esc(t.composer)}</span></li>`).join("")}</ul></section>` : ""}
+    ${music.tracks && music.tracks.length ? `<section><h2 class="rubric">Music · ${music.tracks.length}</h2><ul class="credits-list">${music.tracks
+      .map((t) => `<li><a href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.title)}</a> <span class="who">— ${esc([t.composer, t.performer].filter(Boolean).join(" · "))} (${esc(t.source)})</span></li>`).join("")}</ul></section>` : ""}
     ${Object.entries(bySource).map(([src, list]) => `<section><h2 class="rubric">${esc(src)} · ${list.length}</h2><ul class="credits-list">${list
       .map((a) => `<li><a href="${esc(a.link)}" target="_blank" rel="noopener">${esc(a.title)}</a> <span class="who">— ${esc([a.artist, a.date].filter(Boolean).join(", "))}</span></li>`).join("")}</ul></section>`).join("")}`);
 }
