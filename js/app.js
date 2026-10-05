@@ -916,13 +916,20 @@ const standalone = () => matchMedia("(display-mode: standalone)").matches || nav
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installEvent = e; showInstall(); });
 window.addEventListener("appinstalled", () => { installEvent = null; showInstall(); });
-function showInstall() { $("[data-action=install]").hidden = standalone() || !(installEvent || isIOS); }
+const ua = navigator.userAgent;
+// in-app browsers (Android WebView, Facebook, Instagram, Gmail/Google app…) can't install web apps
+const inAppBrowser = /; wv\)|FBAN|FBAV|Instagram|Line\/|GSA\/|Snapchat|Twitter|LinkedInApp/i.test(ua);
+const isAndroid = /Android/i.test(ua);
+function showInstall() { $("[data-action=install]").hidden = standalone() || !(installEvent || isIOS || isAndroid); }
 async function install() {
   if (installEvent) { installEvent.prompt(); await installEvent.userChoice.catch(() => {}); installEvent = null; showInstall(); return; }
-  openSheet(`<h3>Install on your iPhone</h3><div class="prose">
-    <p>1. Tap the <b>Share</b> button in Safari's toolbar.</p>
-    <p>2. Choose <b>Add to Home Screen</b>.</p>
-    <p>The rosary then opens full-screen like an app, and it works offline.</p></div>`);
+  let steps;
+  if (isIOS) steps = `<p>1. Open this page in <b>Safari</b>.</p><p>2. Tap the <b>Share</b> button.</p><p>3. Choose <b>Add to Home Screen</b>.</p>`;
+  else if (inAppBrowser) steps = `<p>This page is open inside another app's browser, which can't install apps.</p><p>Tap the <b>⋮</b> or <b>⋯</b> menu and choose <b>Open in Chrome</b> (or "Open in browser"), then tap <b>Install app</b> here again.</p>`;
+  else if (/SamsungBrowser/i.test(ua)) steps = `<p>Tap the <b>☰</b> menu, then <b>Add page to</b> → <b>Home screen</b>.</p>`;
+  else if (/Firefox/i.test(ua)) steps = `<p>Tap the <b>⋮</b> menu, then <b>Install</b> (or <b>Add to Home screen</b>).</p>`;
+  else steps = `<p>Tap Chrome's <b>⋮</b> menu (top right), then <b>Install app</b> or <b>Add to Home screen</b>.</p><p>If neither appears, reload the page once and try again.</p>`;
+  openSheet(`<h3>Install the app</h3><div class="prose">${steps}<p>Once installed, the rosary opens full-screen and works offline.</p></div>`);
 }
 
 const ART_CACHE = "art-v1";

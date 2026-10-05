@@ -46,5 +46,6 @@
       "form_factor": "wide",
       "label": "The Illuminated Rosary on desktop"
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }
