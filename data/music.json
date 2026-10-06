@@ -479,6 +479,81 @@
    "duration": 282,
    "source": "Internet Archive 78 rpm (public domain recording)",
    "link": "https://archive.org/details/78_ave-maria_mischa-elman-schubert-wilhelmj_gbia7003785a"
+  },
+  {
+   "id": "methodius-our-father",
+   "src": "music/methodius-our-father.mp3",
+   "composer": "Methodius Media",
+   "title": "Our Father",
+   "performer": "Our Father - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 324,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
+   "id": "methodius-kingdom-come",
+   "src": "music/methodius-kingdom-come.mp3",
+   "composer": "Methodius Media",
+   "title": "Kingdom Come",
+   "performer": "Our Father - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 396,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
+   "id": "methodius-daily-bread",
+   "src": "music/methodius-daily-bread.mp3",
+   "composer": "Methodius Media",
+   "title": "Daily Bread",
+   "performer": "Our Father - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 392,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
+   "id": "methodius-forgive-us",
+   "src": "music/methodius-forgive-us.mp3",
+   "composer": "Methodius Media",
+   "title": "Forgive Us",
+   "performer": "Our Father - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 384,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
+   "id": "methodius-deliver-us",
+   "src": "music/methodius-deliver-us.mp3",
+   "composer": "Methodius Media",
+   "title": "Deliver Us",
+   "performer": "Our Father - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 398,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
   }
  ]
 }

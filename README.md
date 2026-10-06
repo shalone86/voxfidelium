@@ -16,12 +16,16 @@ every prayer has its own public-domain painting. Swipe left to pray onward.
 - Ken Burns motion (on or off), whole-painting or full-bleed display, English
   or Latin, a minimal text mode, a hands-free timer, keep-screen-awake, resume
   where you left off, and offline install (PWA).
-- Optional background music, Instrumental or Sung:
+- Optional background music, Instrumental, Sung or Ambient:
   - Instrumental: public-domain Musopen recordings (Bach, Suk, Haydn, Mozart,
     Schubert…) plus violin *Ave Marias* by Heifetz and Elman.
   - Sung: historic 78 rpm recordings from 1902–1925, public domain in the US
     (Sistine Chapel Choir, Westminster Cathedral Choir, the English Singers,
     McCormack, Caruso, Alda, Schumann-Heink).
+  - Ambient: the sung *Our Father – Chapel Ambient* album from
+    [Methodius Media](https://methodius.media), released under CC0. The build
+    reads the Methodius catalogue, so new "chapel ambient" albums are added on
+    the next `python3 tools/build_music.py`.
   - The Joyful, Luminous and Glorious mysteries and St. Michael get a peaceful
     playlist. The Sorrowful mysteries, Seven Sorrows, Divine Mercy and the Five
     Wounds get a more contemplative one.

@@ -5,7 +5,7 @@ Source: the Musopen Kickstarter recordings, released into the public domain
 Writes music/<id>.mp3 (96 kbps, loudness-normalised for quiet background use)
 and data/music.json.
 """
-import json, os, subprocess, sys, urllib.parse, urllib.request
+import json, os, re, subprocess, sys, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ITEM = "MusopenCollectionAsFlac"
@@ -76,6 +76,32 @@ def build_historic(out):
                         duration=round(secs), source="Internet Archive 78 rpm (public domain recording)", link=f"https://archive.org/details/{item}"))
         print(tid, round(secs), "s", os.path.getsize(dst) // 1024, "KB", flush=True)
 
+# Shalone's own Chapel Ambient albums from Methodius Media (released CC0), read from the
+# site's catalogue so new ambient albums are picked up on the next rebuild.
+METHODIUS = "https://media.methodius.media"
+
+def build_methodius(out):
+    # The media host rejects unfamiliar user agents, so fetch with curl.
+    fetch = lambda url, *dst: subprocess.run(["curl", "-sSfL", "--retry", "3", *(["-o", dst[0]] if dst else []), url], check=True, capture_output=not dst).stdout
+    catalog = json.loads(fetch(METHODIUS + "/catalog.json"))
+    for album in catalog:
+        if "ambient" not in (album.get("imprintFolder") or "").lower(): continue
+        name = re.sub(r"\s*[\[(]\d{4}[\])]", "", album["albumName"]).strip()
+        for t in album.get("tracks", []):
+            title = re.sub(r"\s*Chapel Ambient$", "", t["title"]).strip()
+            tid = "methodius-" + re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:60]
+            dst = os.path.join(ROOT, "music", tid + ".mp3")
+            if not os.path.exists(dst):
+                tmp = dst + ".src"
+                fetch(METHODIUS + "/" + urllib.parse.quote(t["path"]), tmp)
+                subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af", "loudnorm=I=-22:TP=-2:LRA=11,afade=t=in:d=2",
+                                "-ac", "2", "-ar", "44100", "-b:a", "96k", "-map_metadata", "-1", dst], check=True)
+                os.remove(tmp)
+            secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", dst], capture_output=True, text=True).stdout)
+            out.append(dict(id=tid, src=f"music/{tid}.mp3", composer="Methodius Media", title=title, performer=name, kind="ambient",
+                            moods=["peaceful", "sorrowful"], duration=round(secs), source="Methodius Media (CC0)", link="https://methodius.media/#chapel-ambient"))
+            print(tid, round(secs), "s", os.path.getsize(dst) // 1024, "KB", flush=True)
+
 def main():
     meta = json.load(urllib.request.urlopen(urllib.request.Request(f"https://archive.org/metadata/{ITEM}", headers=UA), timeout=60))
     files = {f["name"]: f for f in meta["files"]}
@@ -100,6 +126,7 @@ def main():
                         source="Musopen (public domain)", link=f"https://archive.org/details/{ITEM}"))
         print(tid, round(secs), "s", os.path.getsize(dst) // 1024, "KB", flush=True)
     build_historic(out)
+    build_methodius(out)
     json.dump({"tracks": out}, open(os.path.join(ROOT, "data/music.json"), "w"), ensure_ascii=False, indent=1)
 
 if __name__ == "__main__":
