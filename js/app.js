@@ -429,11 +429,6 @@ function makeSlide(idx) {
     art.appendChild(img);
     el.appendChild(art);
     applyKenBurns(el, false);
-    // Fill would crop away too much of this painting on this screen: show it whole instead
-    if (a.w && a.h) {
-      const ar = a.w / a.h, sr = innerWidth / innerHeight;
-      if (Math.min(ar / sr, sr / ar) < 0.55) el.classList.add("whole");
-    }
   }
   el.insertAdjacentHTML("beforeend", slideHTML(step));
   return el;
