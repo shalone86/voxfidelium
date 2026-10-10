@@ -5,7 +5,7 @@ Source: the Musopen Kickstarter recordings, released into the public domain
 Writes music/<id>.mp3 (96 kbps, loudness-normalised for quiet background use)
 and data/music.json.
 """
-import json, os, re, subprocess, sys, urllib.parse, urllib.request
+import json, os, re, subprocess, sys, time, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ITEM = "MusopenCollectionAsFlac"
@@ -66,10 +66,15 @@ def build_historic(out):
         dst = os.path.join(ROOT, "music", tid + ".mp3")
         if not os.path.exists(dst):
             tmp = dst + ".src"
-            urllib.request.urlretrieve(f"https://archive.org/download/{item}/" + urllib.parse.quote(fname), tmp)
+            for i in range(5):  # archive.org sometimes answers 5xx; try again
+                try: urllib.request.urlretrieve(f"https://archive.org/download/{item}/" + urllib.parse.quote(fname), tmp); break
+                except Exception as e:
+                    if i == 4: raise
+                    print("  retry", tid, e, flush=True); time.sleep(10 * (i + 1))
             subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-af",
                             HISTORIC_FILTER + "loudnorm=I=-22:TP=-2:LRA=11,afade=t=in:d=1.5",
-                            "-ac", "2", "-ar", "44100", "-b:a", "96k", "-map_metadata", "-1", dst], check=True)
+                            # the transfers are mono and carry nothing above 8 kHz, so 48 kbps mono loses nothing audible
+                            "-ac", "1", "-ar", "44100", "-b:a", "48k", "-map_metadata", "-1", dst], check=True)
             os.remove(tmp)
         secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", dst], capture_output=True, text=True).stdout)
         out.append(dict(id=tid, src=f"music/{tid}.mp3", composer=composer, title=title, performer=f"{performer} ({year})", kind=kind, moods=moods,

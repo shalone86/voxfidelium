@@ -1,6 +1,6 @@
 // App shell is network-first (so updates land); artwork is cache-first.
-const SHELL = "shell-v11";
-const ART = "art-v1";
+const SHELL = "shell-v12";
+const ART = "art-v2"; // v2: WebP images (the old JPEG cache is deleted on activate)
 const SHELL_FILES = ["./", "index.html", "css/app.css", "js/app.js", "js/prayers.js", "data/art.json", "data/music.json", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {

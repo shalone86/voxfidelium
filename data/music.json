@@ -481,6 +481,36 @@
    "link": "https://archive.org/details/78_ave-maria_mischa-elman-schubert-wilhelmj_gbia7003785a"
   },
   {
+   "id": "methodius-hail-mary",
+   "src": "music/methodius-hail-mary.mp3",
+   "composer": "Methodius Media",
+   "title": "Hail Mary",
+   "performer": "Hail Mary - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 390,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
+   "id": "methodius-blesed-art-thou",
+   "src": "music/methodius-blesed-art-thou.mp3",
+   "composer": "Methodius Media",
+   "title": "Blesed Art Thou",
+   "performer": "Hail Mary - Chapel Ambient",
+   "kind": "ambient",
+   "moods": [
+    "peaceful",
+    "sorrowful"
+   ],
+   "duration": 452,
+   "source": "Methodius Media (CC0)",
+   "link": "https://methodius.media/#chapel-ambient"
+  },
+  {
    "id": "methodius-our-father",
    "src": "music/methodius-our-father.mp3",
    "composer": "Methodius Media",

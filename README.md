@@ -41,7 +41,7 @@ Jesus Prayer, where every prayer has its own public-domain painting. Swipe left 
   OpenCV's YuNet detector, `tools/focal_points.py`).
 - Installable app (PWA): an "Install app" link on Android and desktop, and
   instructions for iPhone. "Save all paintings for offline" (in About) caches
-  every painting, about 90 MB.
+  every painting, about 80 MB (WebP).
 - Tap ⓘ for the artwork's title, artist, date and source.
 
 See [WORKSHOP.md](WORKSHOP.md) for the design concepts that were considered and

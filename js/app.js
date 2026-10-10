@@ -856,7 +856,7 @@ function openCredits() {
   for (const a of uniq) (bySource[a.source] ||= []).push(a);
   openSheet(`<h3>About</h3>
     <section class="offline" ${"caches" in window ? "" : "hidden"}><h2 class="rubric">Offline</h2>
-      <p class="meta" id="offlineNote">Paintings are kept after you've seen them. Save them all to pray without a connection (about 90 MB; music still needs a connection).</p>
+      <p class="meta" id="offlineNote">Paintings are kept after you've seen them. Save them all to pray without a connection (about 80 MB; music still needs a connection).</p>
       <button class="save-offline" data-action="save-offline">Save all paintings for offline</button></section>
     <div class="prose">
       <p>The Illuminated Rosary pairs every prayer with a work of sacred art: the Rosary, the Divine Mercy Chaplet, the Chaplet of the Seven Sorrows and the Chaplet of St. Michael. The paintings for each decade are drawn fresh from a pool of works on that mystery every time you pray.</p>
@@ -948,7 +948,7 @@ async function install() {
   openSheet(`<h3>Install the app</h3><div class="prose">${steps}<p>Once installed, the rosary opens full-screen and works offline.</p></div>`);
 }
 
-const ART_CACHE = "art-v1";
+const ART_CACHE = "art-v2"; // keep in step with ART in sw.js
 function allImages() { return [...new Set(Object.values(ART.pools).flat().map((a) => a.src))]; }
 async function offlineStatus() {
   if (!("caches" in window)) return null;
