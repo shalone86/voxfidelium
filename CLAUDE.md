@@ -8,7 +8,7 @@ settings are kept, in localStorage.
 - **Validate before pushing:** run `node tools/validate.mjs`. It checks the prayers,
   devotions, image catalogue and music list. The same check runs in GitHub Actions.
 - **Scope is closed:** the Rosary (Roman or Byzantine form), Divine Mercy, Seven
-  Sorrows, St. Michael and the Five Wounds. Don't add more chaplets or date badges
+  Sorrows, St. Michael, the Five Wounds and the Jesus Prayer. Don't add more chaplets or date badges
   (see WORKSHOP.md).
 - **Images:** rebuild them from `tools/picks.txt` with
   `python3 tools/picks_to_selection.py && python3 tools/build_images.py`. That

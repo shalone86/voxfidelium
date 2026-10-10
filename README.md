@@ -1,8 +1,8 @@
 # The Illuminated Rosary
 
 A mobile rosary, plus the Divine Mercy Chaplet, the Chaplet of the Seven
-Sorrows, the Chaplet of St. Michael and the Chaplet of the Five Wounds, where
-every prayer has its own public-domain painting. Swipe left to pray onward.
+Sorrows, the Chaplet of St. Michael, the Chaplet of the Five Wounds and the
+Jesus Prayer, where every prayer has its own public-domain painting. Swipe left to pray onward.
 
 **Live app:** https://shalone86.github.io/illuminatedrosary/
 
@@ -29,6 +29,11 @@ every prayer has its own public-domain painting. Swipe left to pray onward.
   - The Joyful, Luminous and Glorious mysteries and St. Michael get a peaceful
     playlist. The Sorrowful mysteries, Seven Sorrows, Divine Mercy and the Five
     Wounds get a more contemplative one.
+- The Jesus Prayer: the usual Byzantine beginning (Heavenly King, Holy God, Our
+  Father), a hundred Jesus Prayers in four sets of 25 with "Most Holy
+  Theotokos, save us" at the markers, then "It is truly right" and "Through the
+  prayers of our holy fathers". Every image is a Byzantine, Russian or
+  Ukrainian icon of Christ (`tools/gather_icons.py`).
 - Prayer form: Roman, or Byzantine (the wording of the Ukrainian Catholic
   rosary: "Rejoice, Mother of God", the Byzantine Glory Be and Creed, Eastern
   opening prayers and "It is truly right").
@@ -67,6 +72,7 @@ prayer text only.
 ```
 python3 tools/gather.py                 # sdcason.com, Cleveland Museum of Art, The Met → candidates.json
 python3 tools/gather_commons.py         # Wikimedia Commons for thin pools (slow on purpose)
+python3 tools/gather_icons.py           # icons of Christ for the Jesus Prayer (Wikidata + Commons thumbnails)
 # hand-curate tools/picks.txt (pool, source, indices into the candidate lists)
 python3 tools/picks_to_selection.py     # → selection.json, extra.json
 python3 tools/build_images.py           # downloads, resizes, writes img/ and data/art.json

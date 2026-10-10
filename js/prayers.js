@@ -277,3 +277,33 @@ export const BYZANTINE = { hailMary: "bzRejoice", gloryBe: "bzGlory", creed: "bz
 MYSTERIES.glorious.decades[3].byz = { en: "The Dormition of the Mother of God", la: "Dormitio Deiparæ" };
 MYSTERIES.glorious.decades[4].byz = { en: "The Glorification of Mary and Her Holy Protection", la: "Glorificatio et Protectio Deiparæ" };
 MYSTERIES.luminous.decades[0].byz = { en: "The Theophany", la: "Theophania" };
+
+/* ---------------- The Jesus Prayer on the chotki (prayer rope) ----------------
+   The usual Byzantine beginning (Heavenly King, Holy God, Our Father), a hundred
+   Jesus Prayers in four sets of twenty-five with "Most Holy Theotokos, save us"
+   at the markers between them, then "It is truly right" and the dismissal. */
+Object.assign(PRAYERS, {
+  jesusPrayer: {
+    en: { title: "The Jesus Prayer", text: "Lord Jesus Christ, Son of God, have mercy on me, a sinner." },
+    la: { title: "Oratio Iesu", text: "Domine Iesu Christe, Fili Dei, miserere mei peccatoris." },
+  },
+  theotokos: {
+    en: { title: "Most Holy Theotokos", text: "Most Holy Theotokos, save us." },
+    la: { title: "Sanctissima Dei Genetrix", text: "Sanctissima Dei Genetrix, salva nos." },
+  },
+  holyFathers: { en: { title: "Through the Prayers of Our Holy Fathers", text: "Through the prayers of our holy fathers, Lord Jesus Christ, our God, have mercy on us and save us. Amen." } },
+});
+
+CHAPLETS.jesusPrayer = {
+  kind: "jesusPrayer",
+  name: { en: "The Jesus Prayer", la: "Oratio Iesu" },
+  sub: "A hundred prayers on the chotki",
+  begin: "Begin the Jesus Prayer",
+  groupWord: { en: "Twenty-Five", la: "Pars" },
+  cover: "jesus",
+  options: {
+    opening: ["Opening prayers", "Heavenly King, Holy God and the Our Father"],
+    closing: ["Closing prayers", "“It is truly right” and “Through the prayers of our holy fathers…”"],
+  },
+  groups: [1, 26, 51, 76].map((n) => ({ pool: "jesus", name: { en: `Prayers ${n}–${n + 24}`, la: `Orationes ${n}–${n + 24}` } })),
+};

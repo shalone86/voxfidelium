@@ -2,7 +2,7 @@ import { PRAYERS, MYSTERIES, CHAPLETS, NOTES, ORDINALS, BYZANTINE } from "./pray
 
 const $ = (s, el = document) => el.querySelector(s);
 const SET_ORDER = ["joyful", "luminous", "sorrowful", "glorious"];
-const CHAPLET_ORDER = ["divineMercy", "sevenSorrows", "stMichael", "fiveWounds"];
+const CHAPLET_ORDER = ["divineMercy", "sevenSorrows", "stMichael", "fiveWounds", "jesusPrayer"];
 // Every devotion exposes the same shape: name, groups (decades / sorrows / salutations), kind.
 const DEVOTIONS = {};
 for (const [k, m] of Object.entries(MYSTERIES)) DEVOTIONS[k] = { ...m, kind: "rosary", groups: m.decades, groupWord: { en: "Mystery", la: "Mysterium" } };
@@ -181,6 +181,24 @@ function buildSteps(key, opening, closing) {
     if (closing) P("woundsCollect", "mercy", { section: "closing" });
     P("sign", "trinity", { section: "closing" });
     steps.push({ type: "end", art: deal("mercy") });
+  } else if (dev.kind === "jesusPrayer") {
+    // every image in this devotion is an icon of Christ
+    P("bzSign", "jesus", { section: "opening" });
+    if (opening) {
+      P("bzHeavenlyKing", "jesus", { section: "opening" });
+      P("bzTrisagion", "jesus", { section: "opening" });
+      P("ourFather", "jesus", { section: "opening" });
+    }
+    dev.groups.forEach((m, g) => {
+      for (let i = 1; i <= 25; i++) P("jesusPrayer", "jesus", { g, bead: i, beads: 25, plain: true });
+      // the marker bead between the sets of twenty-five
+      if (g < dev.groups.length - 1) P("theotokos", "jesus", { g, bead: 26, beads: 25, plain: true });
+    });
+    if (closing) {
+      P("bzTrulyRight", "jesus", { section: "closing" });
+      P("holyFathers", "jesus", { section: "closing" });
+    }
+    steps.push({ type: "end", art: deal("jesus") });
   } else if (dev.kind === "stMichael") {
     P("sign", "trinity", { section: "opening" });
     P("deusInAdiutorium", "michael", { section: "opening" });
@@ -380,7 +398,7 @@ function slideHTML(step) {
   // the top bar already names the section, so the label carries the mystery, scene or intention
   let label = step.note ? NOTES[step.note][lang] : step.g != null && !step.plain ? gname(dev.groups[step.g], lang) : "";
   let title = p.title;
-  const counted = ["hailMary", "sorrowfulPassion", "gloryBe"].includes(step.prayer) && step.bead > 0 && step.bead <= step.beads;
+  const counted = ["hailMary", "sorrowfulPassion", "gloryBe", "jesusPrayer"].includes(step.prayer) && step.bead > 0 && step.bead <= step.beads;
   if (counted || step.n) title += ` <span style="opacity:.6;font-weight:400">${toRoman(step.n || step.bead)}</span>`;
   const body = p.text;
   const long = body.length > 330 ? " long" : "";
@@ -398,7 +416,8 @@ function creditLine(step) {
 }
 
 function toRoman(n) {
-  return ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"][n] || String(n);
+  const tens = ["", "X", "XX", "XXX"][Math.floor(n / 10)];
+  return n > 0 && n < 40 ? tens + ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"][n % 10] : String(n);
 }
 
 function makeSlide(idx) {
@@ -497,14 +516,16 @@ function updateChrome() {
 
   const beads = $("#beads");
   beads.innerHTML = "";
+  beads.classList.remove("dense");
   const mk = (cls) => { const b = document.createElement("span"); b.className = "bead " + cls; beads.appendChild(b); };
   if (step.g != null) {
     // large bead, then the small beads; the rosary adds a marker for the Glory Be / O My Jesus
     const n = step.beads || 10;
     const pos = step.type === "announce" ? -1 : step.bead;
-    mk("big" + (pos === 0 ? " now" : pos > 0 ? " done" : ""));
+    if (n > 12) beads.classList.add("dense");
+    if (dev.kind !== "jesusPrayer") mk("big" + (pos === 0 ? " now" : pos > 0 ? " done" : ""));
     for (let i = 1; i <= n; i++) mk(i === pos ? "now" : i < pos ? "done" : "");
-    if (dev.kind === "rosary" || dev.kind === "fiveWounds") mk("sep" + (pos === n + 1 ? " now" : ""));
+    if (dev.kind === "rosary" || dev.kind === "fiveWounds" || dev.kind === "jesusPrayer") mk("sep" + (pos === n + 1 ? " now" : ""));
   } else if (step.beads) {
     for (let i = 1; i <= step.beads; i++) mk(i === step.bead ? "now" : i < step.bead ? "done" : "");
   }
@@ -648,7 +669,7 @@ function scheduleAuto() {
 /* ---------------- music ---------------- */
 // One continuous playlist per session, matched to the devotion's mood. Volume fades go
 // through Web Audio because iOS ignores HTMLMediaElement.volume.
-const SORROWFUL = ["sorrowful", "sevenSorrows", "divineMercy", "fiveWounds"];
+const SORROWFUL = ["sorrowful", "sevenSorrows", "divineMercy", "fiveWounds", "jesusPrayer"];
 const music = {
   tracks: null, el: null, ctx: null, gain: null, list: [], i: 0, mood: null, wanted: false,
   async load() {

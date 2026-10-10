@@ -536,6 +536,33 @@
   "met-814477",
   "met-815749"
  ],
+ "jesus": [
+  "wd-Q4501499",
+  "wd-Q5109001",
+  "wd-Q19838804",
+  "wd-Q4430774",
+  "wd-Q4430776",
+  "wd-Q24932672",
+  "wd-Q4430773",
+  "wd-Q20054016",
+  "wd-Q65126432",
+  "wd-Q4430775",
+  "wd-Q4430778",
+  "wd-Q4430772",
+  "wd-Q4430777",
+  "wd-Q21002477",
+  "wd-Q113256272",
+  "wd-Q52224101",
+  "wd-Q135935446",
+  "wd-Q112644476",
+  "wd-Q109829299",
+  "wd-Q134887672",
+  "wd-Q112570101",
+  "sd-christ-pantocrator-in-daphni-monastery-11th-century-public-d",
+  "sd-the-christ-pantocrator-of-the-deesis-mosaic-13th-century-in-",
+  "sd-medallion-with-christ-from-an-icon-frame-1100-constantinople",
+  "met-437578"
+ ],
  "_covers": {
   "joyful": "sd-the-annunciation-1480-by-albert-bouts-public-domain-catholic",
   "luminous": "sd-transfiguration-1516-1520-by-raphael-public-domain-bible-pai",
@@ -544,6 +571,7 @@
   "divineMercy": "sd-divine-mercy-1952-public-domain-catholic-painting",
   "sevenSorrows": "sd-virgin-of-the-seven-sorrows-late-16th-century-low-countries-",
   "stMichael": "sd-saint-michael-by-guido-reni",
-  "fiveWounds": "sd-christ-as-the-man-of-sorrows-1520-1525-by-quentin-metsys-pub"
+  "fiveWounds": "sd-christ-as-the-man-of-sorrows-1520-1525-by-quentin-metsys-pub",
+  "jesusPrayer": "wd-Q4501499"
  }
 }

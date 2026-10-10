@@ -37,11 +37,12 @@ def fetch(a):
     if os.path.exists(fn):
         im = Image.open(fn)
     else:
-        for i in range(4):
+        for i in range(6):
             try:
                 data = urllib.request.urlopen(urllib.request.Request(source_url(a), headers=UA), timeout=90).read(); break
             except Exception as e:
-                print("retry", a["id"], e, file=sys.stderr); time.sleep(3 * (i + 1))
+                # Wikimedia answers 429 when thumbnails are requested too quickly: back off for longer
+                print("retry", a["id"], e, file=sys.stderr); time.sleep((30 if a["src"] == "commons" else 3) * (i + 1))
         else:
             # Ghost resize endpoint can fail on some files; fall back to the original
             data = urllib.request.urlopen(urllib.request.Request(a["image"], headers=UA), timeout=90).read()

@@ -174,6 +174,8 @@ devotions is therefore closed:
 - the Seven Sorrows
 - St. Michael
 - the Five Wounds
+- the Jesus Prayer (added later at the owner's request: a hundred prayers on the
+  chotki, illustrated only with Byzantine, Russian and Ukrainian icons of Christ)
 
 No date badges, and no further chaplets. The site is meant to be built once and
 left alone.
