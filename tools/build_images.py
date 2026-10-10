@@ -3,13 +3,13 @@
 Reads tools/candidates.json and tools/selection.json ({pool: [candidate ids]}),
 writes img/<id>.jpg (max 1600px, progressive JPEG) and data/art.json.
 """
-import base64, io, json, os, re, sys, time, urllib.request
+import base64, io, json, os, re, sys, time, urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = {"User-Agent": "VoxFidelium-Rosary/1.0 (+https://github.com/shalone86/illuminatedrosary)"}
-SOURCES = {"sdcason": "Free Catholic Gallery (sdcason.com)", "cleveland": "Cleveland Museum of Art", "met": "The Metropolitan Museum of Art", "wellcome": "Wellcome Collection", "rijks": "Rijksmuseum", "commons": "Wikimedia Commons"}
+SOURCES = {"sdcason": "Free Catholic Gallery (sdcason.com)", "cleveland": "Cleveland Museum of Art", "met": "The Metropolitan Museum of Art", "wellcome": "Wellcome Collection", "rijks": "Rijksmuseum", "commons": "Wikimedia Commons", "iconorgua": "icon.org.ua (Ukrainian icons)"}
 MAX = 1400
 
 cands = json.load(open(os.path.join(ROOT, "tools/candidates.json")))
@@ -30,7 +30,8 @@ def source_url(a):
     u = a["image"]
     if a["src"] == "sdcason" and "/content/images/" in u and "/size/" not in u:
         u = u.replace("/content/images/", "/content/images/size/w2000/")
-    return u
+    # icon.org.ua file names are Cyrillic
+    return urllib.parse.quote(u, safe=":/%?=&")
 
 def fetch(a):
     fn = os.path.join(ROOT, "img", slug(a["id"]) + ".jpg")
@@ -66,7 +67,8 @@ for pool, lst in sel.items():
     pools[pool] = []
     for i in lst:
         a = by_id[i]
-        pools[pool].append(dict(id=slug(i), src=f"img/{slug(i)}.jpg", title=a["title"], artist=clean_artist(a.get("artist", "")), date=a.get("date", ""), source=SOURCES[a["src"]], link=a.get("link", ""), **meta[i]))
+        pools[pool].append(dict(id=slug(i), src=f"img/{slug(i)}.jpg", title=a["title"], artist=clean_artist(a.get("artist", "")), date=a.get("date", ""), source=SOURCES[a["src"]], link=a.get("link", ""),
+                                  **({"credit": a["credit"]} if a.get("credit") else {}), **meta[i]))
 out = dict(pools=pools, covers={k: slug(v) for k, v in sel.get("_covers", {}).items()})
 json.dump(out, open(os.path.join(ROOT, "data/art.json"), "w"), ensure_ascii=False, separators=(",", ":"))
 used = {slug(i) + ".jpg" for i in ids}

@@ -84,7 +84,11 @@ All artwork is in the public domain or released under CC0:
 [Free Catholic Gallery (sdcason.com)](https://sdcason.com),
 [Cleveland Museum of Art Open Access](https://www.clevelandart.org/open-access),
 [The Metropolitan Museum of Art Open Access](https://www.metmuseum.org/about-the-met/policies-and-documents/open-access),
-and [Wikimedia Commons](https://commons.wikimedia.org).
+[Wikimedia Commons](https://commons.wikimedia.org), and, for the Jesus Prayer,
+Ukrainian icons from [icon.org.ua](https://www.icon.org.ua/en/) (15th–18th
+century; each credited with its museum or church). Faithful photographs of
+public-domain paintings are public domain in the US (Bridgeman v. Corel), but
+that may not hold in every country.
 Scripture is from the Douay-Rheims Bible.
 
 Run it locally with `python3 -m http.server`, then open http://localhost:8000.

@@ -2,7 +2,11 @@
 
 Only Byzantine, Russian and Ukrainian icons (and the post-Byzantine Cretan school).
 The list is hand-picked: Wikidata items (images from Wikimedia Commons thumbnails,
-since the Commons API rate-limits), Free Catholic Gallery posts and Met objects.
+since the Commons API rate-limits), Free Catholic Gallery posts, Met objects, and
+Ukrainian icons from icon.org.ua (tools/icon_org_ua_picks.json: gallery, original
+caption and image URL; 15th-18th century only). Photographs of these flat,
+centuries-old works are public domain in the US (Bridgeman v. Corel); that may
+not hold in every country.
 """
 import hashlib, json, os, re, subprocess, sys, time, urllib.parse, urllib.request
 HERE = os.path.dirname(__file__)
@@ -119,7 +123,45 @@ def met():
             out.append(dict(src="met", id=f"met-{oid}", title=o["title"], artist=o.get("artistDisplayName", ""), date=o.get("objectDate", ""), link=o.get("objectURL"), image=o["primaryImage"]))
     return out
 
+GALLERIES = {
+ "christ-pantocrator-deesis": "Christ Pantocrator", "christ-pantocrator-sovereign-tier": "Christ Pantocrator",
+ "christ-the-great-hierarch": "Christ the Great High Priest", "holy-face-of-christ": "The Holy Face (Not Made by Hands)",
+ "christ-in-power": "Christ in Power", "christ-emmanuel": "Christ Emmanuel", "christ-in-glory": "Christ in Glory",
+ "christ-the-king-of-glory-sovereign-tier": "Christ the King of Glory", "christ-the-king-of-glory-deesis": "Christ the King of Glory",
+}
+SCHOOLS = {"Риботиц": "Rybotychi school", "Жовків": "Zhovkva school", "Перемиш": "Przemyśl school", "Самбір": "Sambir school",
+           "Львівськ": "Lviv school", "Вишен": "Sudova Vyshnia school", "Вишнян": "Sudova Vyshnia school",
+           "Києво-Печер": "Kyiv-Pechersk school", "Остроз": "Ostroh school"}
+ORD = {"XI": 11, "XII": 12, "XIII": 13, "XIV": 14, "XV": 15, "XVI": 16, "XVII": 17, "XVIII": 18}
+def th(n): return f"{n}th"
+
+def uk_date(cap):
+    # "II пол. XVII ст." -> "2nd half of the 17th century"; "1650-1660 рр." -> "1650–1660"
+    m = re.search(r"\b(1[0-8]\d\d)\s*[-–]\s*(1[0-8]\d\d)", cap)
+    if m: return f"{m.group(1)}–{m.group(2)}"
+    m = re.search(r"\b(1[0-8]\d\d)\s*р", cap)
+    if m: return m.group(1)
+    m = re.search(r"(?:(I|II)\s*пол\.|(поч\.|кін\.|серед\.))?\s*(XVIII|XVII|XVI|XV|XIV|XIII|XII|XI)\s*[-–]?\s*(?:(XVIII|XVII|XVI|XV|XIV)\s*)?ст", cap, re.I)
+    if not m: return ""
+    half, part, c1, c2 = m.groups()
+    cent = f"{th(ORD[c1])}–{th(ORD[c2])} century" if c2 else f"{th(ORD[c1])} century"
+    if half: return ("1st" if half == "I" else "2nd") + " half of the " + cent
+    if part: return {"поч.": "early ", "кін.": "late ", "серед.": "mid-"}[part.lower()] + cent
+    return cent
+
+def icon_org_ua():
+    out = []
+    for a in json.load(open(os.path.join(HERE, "icon_org_ua_picks.json"))):
+        cap = re.sub(r"\s+", " ", a["caption"]).strip()
+        uk, _, en = cap.partition("<br>")
+        en = re.sub(r"^\s*Source:\s*", "Source: ", en).strip().rstrip(".")
+        school = next((v for k, v in SCHOOLS.items() if k in uk), "")
+        slug = re.sub(r"[^a-z0-9]+", "-", a["image"].rsplit("/", 1)[1].lower().encode("ascii", "ignore").decode()).strip("-")[:40]
+        out.append(dict(src="iconorgua", id="iua-" + hashlib.md5(a["image"].encode()).hexdigest()[:10], title=GALLERIES[a["gallery"]], artist=school,
+                        date=uk_date(uk), credit=en, caption=uk.strip(), link=f"https://www.icon.org.ua/en/gallerys/{a['gallery']}-2/", image=a["image"]))
+    return out
+
 if __name__ == "__main__":
-    res = wikidata() + sdcason() + met()
+    res = wikidata() + sdcason() + met() + icon_org_ua()
     json.dump({"jesus": res}, open(os.path.join(HERE, "candidates_icons.json"), "w"), indent=1, ensure_ascii=False)
     for i, a in enumerate(res): print(i, a["id"], "|", a["title"][:60], "|", a["artist"], "|", a["date"])
